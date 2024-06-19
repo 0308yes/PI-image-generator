@@ -19,31 +19,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
     .then(data => {
         if (data.imageUrls) {
             displayImages(data.imageUrls, data.prompt);
-        } else {
-            displayError(data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        displayError(error);
-    });
-});
-
-document.getElementById('csvForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const formData = new FormData();
-    const csvFile = document.getElementById('csvFile').files[0];
-    formData.append('csvFile', csvFile);
-
-    fetch('/upload-csv', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.imageUrls) {
-            displayImages(data.imageUrls);
+            fetchLogs();
         } else {
             displayError(data.error);
         }
@@ -68,3 +44,33 @@ function displayError(error) {
     const imageContainer = document.getElementById('imageContainer');
     imageContainer.innerHTML = `<p>Error generating image: ${error}</p>`;
 }
+
+function fetchLogs() {
+    fetch('/logs')
+    .then(response => response.json())
+    .then(logs => {
+        displayLogs(logs);
+    })
+    .catch(error => {
+        console.error('Error fetching logs:', error);
+    });
+}
+
+function displayLogs(logs) {
+    const logContainer = document.getElementById('logContainer');
+    logContainer.innerHTML = logs.map(log => `
+        <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+            <img src="${log.imageFilepath}" alt="Log Image" style="width: 150px; height: 150px;">
+            <p>${new Date(log.timestamp).toLocaleString()}</p>
+            <p><strong>Move:</strong> ${log.move}</p>
+            <p><strong>Exercise:</strong> ${log.exercise}</p>
+            <p><strong>Stand:</strong> ${log.stand}</p>
+            <p><strong>Steps:</strong> ${log.steps}</p>
+            <p><strong>Distance:</strong> ${log.distance} km</p>
+            <p><strong>Generated Prompt:</strong> ${log.prompt}</p>
+        </div>
+    `).join('');
+}
+
+// 페이지 로드 시 로그 데이터를 불러오기
+document.addEventListener('DOMContentLoaded', fetchLogs);

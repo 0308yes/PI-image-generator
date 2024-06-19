@@ -1,18 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
-const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
 const PORT = 3000;
 
-const upload = multer({ dest: 'uploads/' });
-
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public'))); // 정적 파일 제공 경로 설정
 
 // GPT로 이미지 프롬프트 생성
 async function generatePrompt(move, exercise, stand, steps, distance) {
@@ -77,6 +73,28 @@ async function saveImageToFile(url, filepath) {
     console.log(`Image saved to ${filepath}`);
 }
 
+async function logGenerationDetails(move, exercise, stand, steps, distance, prompt, imageFilepath) {
+    const logData = {
+        timestamp: new Date().toISOString(),
+        move,
+        exercise,
+        stand,
+        steps,
+        distance,
+        prompt,
+        imageFilepath
+    };
+
+    const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
+    let logs = [];
+    if (fs.existsSync(logFilepath)) {
+        logs = JSON.parse(fs.readFileSync(logFilepath));
+    }
+    logs.push(logData);
+    fs.writeFileSync(logFilepath, JSON.stringify(logs, null, 2));
+    console.log('Generation details logged.');
+}
+
 app.post('/generate-image', async (req, res) => {
     const { move, exercise, stand, steps, distance } = req.body;
 
@@ -103,11 +121,14 @@ app.post('/generate-image', async (req, res) => {
         if (response.ok) {
             const imageUrls = data.data.map(image => image.url);
             const timestamp = Date.now();
-            const filepath = path.join(__dirname, 'images', `image_${timestamp}.png`);
+            const imageFilename = `image_${timestamp}.png`;
+            const imageFilepath = path.join(__dirname, 'public', 'images', imageFilename); // 경로 수정
+            const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
 
-            await saveImageToFile(imageUrls[0], filepath);
+            await saveImageToFile(imageUrls[0], imageFilepath);
+            await logGenerationDetails(move, exercise, stand, steps, distance, generatedPrompt, `/images/${imageFilename}`);
 
-            res.json({ imageUrls, prompt: generatedPrompt, savedFilePath: filepath });
+            res.json({ imageUrls, prompt: generatedPrompt, savedFilePath: imageFilepath });
         } else {
             console.error('OpenAI API Error:', data);
             res.status(500).json({ error: 'Failed to generate image', details: data });
@@ -118,58 +139,14 @@ app.post('/generate-image', async (req, res) => {
     }
 });
 
-app.post('/upload-csv', upload.single('csvFile'), (req, res) => {
-    const filePath = req.file.path;
-    const results = [];
-
-    fs.createReadStream(filePath)
-        .pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', async () => {
-            console.log('CSV data:', results);
-
-            // CSV 첫 번째 행 데이터 사용
-            const { move, exercise, stand, steps, distance } = results[0];
-
-            try {
-                const generatedPrompt = await generatePrompt(move, exercise, stand, steps, distance);
-                const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
-                const response = await fetch('https://api.openai.com/v1/images/generations', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                    },
-                    body: JSON.stringify({
-                        model: 'dall-e-3',
-                        prompt: generatedPrompt,
-                        n: 1,
-                        size: "1024x1024",
-                    }),
-                });
-
-                const data = await response.json();
-                console.log('DALL-E response data:', data); // 디버깅 로그
-
-                if (response.ok) {
-                    const imageUrls = data.data.map(image => image.url);
-                    const timestamp = Date.now();
-                    const filepath = path.join(__dirname, 'images', `image_${timestamp}.png`);
-
-                    await saveImageToFile(imageUrls[0], filepath);
-
-                    res.json({ imageUrls, savedFilePath: filepath });
-                } else {
-                    console.error('OpenAI API Error:', data);
-                    res.status(500).json({ error: 'Failed to generate image', details: data });
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                res.status(500).json({ error: 'Failed to generate image', details: error });
-            }
-
-            fs.unlinkSync(filePath); // CSV 파일 삭제
-        });
+app.get('/logs', (req, res) => {
+    const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
+    if (fs.existsSync(logFilepath)) {
+        const logs = JSON.parse(fs.readFileSync(logFilepath));
+        res.json(logs);
+    } else {
+        res.json([]);
+    }
 });
 
 app.listen(PORT, () => {

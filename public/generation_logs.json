@@ -108,5 +108,85 @@
     "distance": "23",
     "prompt": "A surrealist painting of a serene forest with 23 glowing orbs floating among the trees, each orb emitting a faint light as a symbol of energy and movement, creating a tranquil yet dynamic atmosphere.",
     "imageFilepath": "/images/image_1718805150906.png"
+  },
+  {
+    "timestamp": "2024-06-19T14:16:03.020Z",
+    "move": "3",
+    "exercise": "4",
+    "stand": "23",
+    "steps": "23",
+    "distance": "2433",
+    "prompt": "A surreal, abstract painting of a person standing tall on top of a mountain peak, under a night sky swirling with vibrant colors, with a trail of faint footprints leading up the rocky slope.",
+    "imageFilepath": "/images/image_1718806560249.png"
+  },
+  {
+    "timestamp": "2024-06-19T14:16:57.683Z",
+    "move": "66",
+    "exercise": "66",
+    "stand": "66",
+    "steps": "666",
+    "distance": "66",
+    "prompt": "A serene forest scene with a whimsical touch, including an abstract depiction of a flowing path, ethereal glowing lights in the trees, lively animal silhouettes in motion, and an omnipresent sense of symmetry and balance throughout the landscape, rendered in a vibrant, impressionist style.",
+    "imageFilepath": "/images/image_1718806615096.png"
+  },
+  {
+    "timestamp": "2024-06-19T14:18:10.514Z",
+    "move": "7",
+    "exercise": "7",
+    "stand": "7",
+    "steps": "7",
+    "distance": "7",
+    "prompt": "A serene, abstract canvas, where each brushstroke signifies gentleness and balance. The painting is filled with soft, flowing lines and harmonious, pastel colors merging together, reflecting a tranquil journey. The theme is an impressionistic portrayal of a calm path through a lush, softly lit forest at dawn, where gentle mist interweaves between the towering, ethereal trees, evoking a sense of peaceful solitude and balanced effort.",
+    "imageFilepath": "/images/image_1718806688556.png"
+  },
+  {
+    "timestamp": "2024-06-19T14:19:42.633Z",
+    "move": "7",
+    "exercise": "7",
+    "stand": "7",
+    "steps": "7",
+    "distance": "7",
+    "prompt": "Prompt for DALL-E: \"Create an impressionist painting of seven vibrant hot air balloons floating gently across a pastel sky at sunrise, with lush green hills and a winding river below, portraying a serene and balanced journey.\"",
+    "imageFilepath": "/images/image_1718806780224.png"
+  },
+  {
+    "timestamp": "2024-06-19T14:24:22.620Z",
+    "move": "33",
+    "exercise": "33",
+    "stand": "33",
+    "steps": "33",
+    "distance": "33",
+    "prompt": "\"An abstract painting of a harmonious balance of motion, energy, and calm, reflecting interconnected vibrant swirls and lines, with a fusion of soft greens, deep blues, and dynamic yellows, depicting an energetic flow and serene stability.\"",
+    "imageFilepath": "/images/image_1718807060326.png"
+  },
+  {
+    "timestamp": "2024-06-19T15:32:10.955Z",
+    "move": "33",
+    "exercise": "33",
+    "stand": "33",
+    "steps": "33",
+    "distance": "33",
+    "prompt": "A vibrant abstract painting of a sun rising over a dynamic and colorful landscape with swirling patterns and flowing lines that convey energy, movement, and rhythm. The landscape features exaggerated hills, valleys, and streams that intertwine seamlessly to reflect harmony and continuous motion. The use of bright and varied colors symbolizes the diverse aspects of an energetic day.",
+    "imageFilepath": "/images/image_1718811128592.png"
+  },
+  {
+    "timestamp": "2024-06-19T15:42:39.887Z",
+    "move": "1",
+    "exercise": "1",
+    "stand": "1",
+    "steps": "1",
+    "distance": "1",
+    "prompt": "A single blossoming flower surrounded by a vast barren landscape. The flower is vibrant and colorful, symbolizing a solitary effort and minimal activity in an otherwise inactive environment. The sky is clear with a faint sunrise, indicating the beginning of a journey. The style should be impressionist with delicate brush strokes emphasizing the contrast between the active flower and the inactive surroundings.",
+    "imageFilepath": "/images/image_1718811757007.png"
+  },
+  {
+    "timestamp": "2024-06-19T15:46:04.261Z",
+    "move": "230",
+    "exercise": "60",
+    "stand": "50",
+    "steps": "6000",
+    "distance": "3",
+    "prompt": "A vibrant, impressionist painting of a bustling market filled with people moving energetically. There are shoppers walking briskly, vendors animatedly interacting, and children playing around. The colors are bright and dynamic, reflecting the energy and activity of the scene. The stalls are adorned with fresh, colorful produce and flowers, while the background shows a busy street with silhouettes of people walking and bicycling. The whole scene should evoke a sense of constant motion, community engagement, and lively atmosphere.",
+    "imageFilepath": "/images/image_1718811961265.png"
   }
 ]

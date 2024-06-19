@@ -19,7 +19,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
     .then(data => {
         if (data.imageUrls) {
             displayImages(data.imageUrls, data.prompt);
-            fetchLogs();
+            fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
         } else {
             displayError(data.error);
         }
@@ -32,7 +32,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
 
 function displayImages(imageUrls, prompt) {
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = imageUrls.map(url => `<img src="${url}" alt="Generated Image" style="width: 300px; height: auto;">`).join('');
+    imageContainer.innerHTML = imageUrls.map(url => `<img src="${url}" alt="Generated Image" style="width: 512px; height: auto;">`).join('');
     if (prompt) {
         const promptElement = document.createElement('p');
         promptElement.innerText = `Generated Prompt: ${prompt}`;
@@ -49,7 +49,11 @@ function fetchLogs() {
     fetch('/logs')
     .then(response => response.json())
     .then(logs => {
-        displayLogs(logs);
+        displayTodayLogs(logs);
+        const historyButton = document.getElementById("btn1");
+        const todayButton = document.getElementById("btn2");
+        historyButton.addEventListener('click', () => displayAllLogs(logs));
+        todayButton.addEventListener('click', () => displayTodayLogs(logs));
     })
     .catch(error => {
         console.error('Error fetching logs:', error);
@@ -74,80 +78,37 @@ function groupLogsByDate(logs) {
     return grouped;
 }
 
-// 날짜별 로그를 HTML로 표시하는 함수
-function displayLogs(logs) {
-    const logContainer = document.getElementById('logContainer');
-    const groupedLogs = groupLogsByDate(logs);
-    const sortedDates = Object.keys(groupedLogs).sort((a, b) => new Date(b) - new Date(a));
-
-    logContainer.innerHTML = sortedDates.map(date => `
+function renderLogs(date, logs) {
+    return `
         <div class="log-date-group">
             <h3>${date}</h3>
-            ${groupedLogs[date].map(log => `
+            ${logs.map(log => `
                 <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
                     <img src="${log.imageFilepath}" alt="Log Image" style="width: 300px; height: auto;">
                     <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
                 </div>
             `).join('')}
         </div>
-    `).join('');
+    `;
 }
 
-//--------------------- 날짜 예전꺼부터 보이게 
-// function groupLogsByDate(logs) {
-//     return logs.reduce((acc, log) => {
-//         const date = new Date(log.timestamp).toLocaleDateString();
-//         if (!acc[date]) {
-//             acc[date] = [];
-//         }
-//         acc[date].push(log);
-//         return acc;
-//     }, {});
-// }
+function displayTodayLogs(logs) {
+    const logContainer = document.getElementById('logContainer');
+    const today = new Date().toLocaleDateString();
+    const todayLogs = logs
+        .filter(log => new Date(log.timestamp).toLocaleDateString() === today)
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // 최신순으로 정렬
 
-// // 날짜별 로그를 HTML로 표시하는 함수
-// function displayLogs(logs) {
-//     const logContainer = document.getElementById('logContainer');
-//     const groupedLogs = groupLogsByDate(logs);
+    logContainer.innerHTML = renderLogs(today, todayLogs);
+}
 
-//     logContainer.innerHTML = Object.keys(groupedLogs).map(date => `
-//         <div class="log-date-group">
-//             <h3>${date}</h3>
-//             ${groupedLogs[date].map(log => `
-//                 <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-//                     <img src="${log.imageFilepath}" alt="Log Image" style="width: 300px; height: 00px;">
-//                     <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
-//                 </div>
-//             `).join('')}
-//         </div>
-//     `).join('');
-// }
+function displayAllLogs(logs) {
+    const logContainer = document.getElementById('logContainer');
+    const groupedLogs = groupLogsByDate(logs);
+    const sortedDates = Object.keys(groupedLogs).sort((a, b) => new Date(b) - new Date(a));
 
+    logContainer.innerHTML = sortedDates.map(date => renderLogs(date, groupedLogs[date])).join('');
+}
 
-//--------------------- 다른 메타 데이터도 표시해주기
-// function displayLogs(logs) {
-//     const logContainer = document.getElementById('logContainer');
-//     const groupedLogs = groupLogsByDate(logs);
-
-//     logContainer.innerHTML = Object.keys(groupedLogs).map(date => `
-//         <div class="log-date-group">
-//             <h3>${date}</h3>
-//             ${groupedLogs[date].map(log => `
-//                 <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-//                     <img src="${log.imageFilepath}" alt="Log Image" style="width: 100px; height: 100px;">
-//                     <p><strong>Timestamp:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
-//                     <p><strong>Move:</strong> ${log.move}</p>
-//                     <p><strong>Exercise:</strong> ${log.exercise}</p>
-//                     <p><strong>Stand:</strong> ${log.stand}</p>
-//                     <p><strong>Steps:</strong> ${log.steps}</p>
-//                     <p><strong>Distance:</strong> ${log.distance} km</p>
-//                     <p><strong>Generated Prompt:</strong> ${log.prompt}</p>
-//                 </div>
-//             `).join('')}
-//         </div>
-//     `).join('');
-// }
-
-// 페이지 로드 시 로그 데이터를 불러오기
+// 페이지 로드 시 오늘의 로그 데이터를 불러오기
 document.addEventListener('DOMContentLoaded', fetchLogs);
-

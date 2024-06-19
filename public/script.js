@@ -56,18 +56,37 @@ function fetchLogs() {
     });
 }
 
+function groupLogsByDate(logs) {
+    return logs.reduce((acc, log) => {
+        const date = new Date(log.timestamp).toLocaleDateString();
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(log);
+        return acc;
+    }, {});
+}
+
 function displayLogs(logs) {
     const logContainer = document.getElementById('logContainer');
-    logContainer.innerHTML = logs.map(log => `
-        <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-            <img src="${log.imageFilepath}" alt="Log Image" style="width: 150px; height: 150px;">
-            <p>${new Date(log.timestamp).toLocaleString()}</p>
-            <p><strong>Move:</strong> ${log.move}</p>
-            <p><strong>Exercise:</strong> ${log.exercise}</p>
-            <p><strong>Stand:</strong> ${log.stand}</p>
-            <p><strong>Steps:</strong> ${log.steps}</p>
-            <p><strong>Distance:</strong> ${log.distance} km</p>
-            <p><strong>Generated Prompt:</strong> ${log.prompt}</p>
+    const groupedLogs = groupLogsByDate(logs);
+
+    logContainer.innerHTML = Object.keys(groupedLogs).map(date => `
+        <div class="log-date-group">
+            <h3>${date}</h3>
+            ${groupedLogs[date].map(log => `
+                <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+                    <img src="${log.imageFilepath}" alt="Log Image" class="generated-image" style="width: 150px; height: 150px;">
+                    <p><strong>Timestamp:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
+                    <p><strong>Move:</strong> ${log.move}</p>
+                    <p><strong>Exercise:</strong> ${log.exercise}</p>
+                    <p><strong>Stand:</strong> ${log.stand}</p>
+                    <p><strong>Steps:</strong> ${log.steps}</p>
+                    <p><strong>Distance:</strong> ${log.distance} km</p>
+                    <p><strong>Generated Prompt:</strong> ${log.prompt}</p>
+                    <p><strong>Revised Prompt:</strong> ${log.revised_prompt}</p>
+                </div>
+            `).join('')}
         </div>
     `).join('');
 }

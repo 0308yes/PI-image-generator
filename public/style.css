@@ -1,4 +1,14 @@
-/* img.generated-image {
-    width: 300px;
-    height: 300px; 
-} */
+네비게이션 스타일
+.nav-item {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.nav-item.active {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}

@@ -78,5 +78,35 @@
     "distance": "3",
     "prompt": "A serene landscape photo featuring a person sitting cross-legged in a vast, open meadow under a lightly overcast sky. Sparse trees dot the horizon, and there is a calm river winding through the meadow. The person is in a contemplative state, symbolizing minimal movement and introspection. The meadow is dotted with a few wildflowers, hinting at the simplicity and minimal but beautiful activity in their surroundings.",
     "imageFilepath": "/images/image_1718800579693.png"
+  },
+  {
+    "timestamp": "2024-06-19T13:02:38.359Z",
+    "move": "3",
+    "exercise": "3",
+    "stand": "3",
+    "steps": "3",
+    "distance": "13",
+    "prompt": "A surreal landscape with a single, long winding path that stretches across rolling hills and forests. Along the path, there are three distinct trees at intervals, each tree's leaves glowing brightly to signify a stopping point. The horizon showcases a distant, peaceful mountain range under a vibrant, glowing sunset with a warm palette. The image should have an impressionist style, filled with dynamic brush strokes and vivid, soft blending of colors.",
+    "imageFilepath": "/images/image_1718802156107.png"
+  },
+  {
+    "timestamp": "2024-06-19T13:51:32.081Z",
+    "move": "3",
+    "exercise": "4",
+    "stand": "3",
+    "steps": "3",
+    "distance": "3",
+    "prompt": "Abstract scene of a serene forest with barely disturbed pathways and subtle hints of activity like a light trail of footsteps, a few scattered leaves, and small woodland animals reflecting calm pace and intermittent movement in an impressionist style.",
+    "imageFilepath": "/images/image_1718805089315.png"
+  },
+  {
+    "timestamp": "2024-06-19T13:52:33.305Z",
+    "move": "23",
+    "exercise": "23",
+    "stand": "23",
+    "steps": "23",
+    "distance": "23",
+    "prompt": "A surrealist painting of a serene forest with 23 glowing orbs floating among the trees, each orb emitting a faint light as a symbol of energy and movement, creating a tranquil yet dynamic atmosphere.",
+    "imageFilepath": "/images/image_1718805150906.png"
   }
 ]

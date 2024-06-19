@@ -190,16 +190,6 @@
     "imageFilepath": "/images/image_1718811961265.png"
   },
   {
-    "timestamp": "2024-06-19T16:26:10.755Z",
-    "move": "23",
-    "exercise": "43",
-    "stand": "23",
-    "steps": "4",
-    "distance": "32",
-    "prompt": "A vibrant abstract painting of an energetic figure in motion, with swirling patterns and dynamic colors representing activity and movement. The background features a blend of cool and warm hues to symbolize both calm and exertion, with hints of trails and lines suggesting extensive travels and standing points scattered throughout the composition.",
-    "imageFilepath": "/images/image_1718814367737.png"
-  },
-  {
     "timestamp": "2024-06-19T16:27:35.453Z",
     "move": "23",
     "exercise": "43",
@@ -208,5 +198,38 @@
     "distance": "32",
     "prompt": "A serene Japanese garden at dusk, with intricate rock patterns symbolizing the path taken, a koi pond reflecting movement, a stone lantern emitting a soft glow symbolizing energy, and beautifully arranged stepping stones creating a tranquil yet purposeful ambiance – in an impressionist style.",
     "imageFilepath": "/images/image_1718814452970.png"
+  },
+  {
+    "timestamp": "2024-06-19T16:44:09.102Z",
+    "move": "211",
+    "exercise": "24",
+    "stand": "9",
+    "steps": "4927",
+    "distance": "3",
+    "workout": "Outdoor walk (1.71 KM)",
+    "prompt": "Impressionist painting of a serene countryside landscape with a winding river, early morning sunlight, gentle hills, lush green trees, and a few small, colorful birds in mid-flight.",
+    "imageFilepath": "/images/image_1718815446881.png"
+  },
+  {
+    "timestamp": "2024-06-19T16:51:10.549Z",
+    "move": "234",
+    "exercise": "28",
+    "stand": "11",
+    "steps": "5119",
+    "distance": "3",
+    "workout": "outdoor walk",
+    "prompt": "A vibrant impressionist painting of a serene park with dappled sunlight filtering through the trees, gentle undulating hills, and a peaceful river flowing through. The scene includes colorful leaves dancing in the wind, symbolizing movement and energy, with shadows suggesting the passage of time and activity. Birds flying across the clear blue sky symbolize freedom and vitality.",
+    "imageFilepath": "/images/image_1718815868110.png"
+  },
+  {
+    "timestamp": "2024-06-19T16:52:40.948Z",
+    "move": "433",
+    "exercise": "23",
+    "stand": "22",
+    "steps": "4333",
+    "distance": "2",
+    "workout": "Outdoor walk",
+    "prompt": "A serene nature scene in impressionist style showing a dynamic and colorful sunrise over a peaceful meadow with wildflowers, and a path emerging from a dense forest canopy into the open fields. The scene captures a single figure partaking in a meditative moment, surrounded by the quiet and calm of early morning with dew glistening on the leaves. The energy of the day is hinted through the vibrant colors and the figure's poised yet relaxed stance amid nature's beauty.",
+    "imageFilepath": "/images/image_1718815958713.png"
   }
 ]

@@ -13,40 +13,48 @@
             <label for="move">Move:</label>
             <input type="number" id="move" name="move" required>
         </div>
-        
+
         <div class="form-group">
             <label for="exercise">Exercise:</label>
             <input type="number" id="exercise" name="exercise" required>
         </div>
-        
+
         <div class="form-group">
             <label for="stand">Stand:</label>
             <input type="number" id="stand" name="stand" required>
         </div>
-        
+
         <div class="form-group">
             <label for="steps">Steps:</label>
             <input type="number" id="steps" name="steps" required>
         </div>
-        
+
         <div class="form-group">
             <label for="distance">Distance (km):</label>
             <input type="number" id="distance" name="distance" required>
         </div>
-        
+
+        <div class="form-group">
+            <label for="workout">Workout:</label>
+            <input type="text" id="workout" name="workout" required>
+        </div>
+
         <button type="submit" class="submit-button">Submit</button>
     </form>
+
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
     
+    <h2>Generated Image</h2>
     <div id="imageContainer"></div>
-    
+
     <div class="button-container">
         <button id="btn2" class="action-button">Today</button>
         <button id="btn1" class="action-button">History</button>
     </div>
-    
+
     <h2>Image Log</h2>
     <div id="logContainer"></div>
-    
+
     <script src="script.js?v=1"></script> <!-- 캐시 무효화-->
 </body>
 </html>

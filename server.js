@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public'))); // 정적 파일 제공 경로 설정
 
 // GPT로 이미지 프롬프트 생성
-async function generatePrompt(move, exercise, stand, steps, distance) {
+async function generatePrompt(move, exercise, stand, steps, distance, workout) {
     const fetch = await import('node-fetch').then(mod => mod.default); 
     const messages = [
         {
@@ -20,7 +20,7 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
         },
         {
             role: "user",
-            content: `You will be provided with the personal data related to physical activity of a day, including move: ${move} KCAL, exercise: ${exercise} minutes, stand: ${stand} times, steps: ${steps}, and distance: ${distance} KM.`
+            content: `You will be provided with the personal data related to physical activity of a day, including move: ${move} KCAL, exercise: ${exercise} minutes, stand: ${stand} times, steps: ${steps}, distance: ${distance} KM, and workout: ${workout}.`
         },
         {
             role: "system",
@@ -73,7 +73,7 @@ async function saveImageToFile(url, filepath) {
     console.log(`Image saved to ${filepath}`);
 }
 
-async function logGenerationDetails(move, exercise, stand, steps, distance, prompt, imageFilepath) {
+async function logGenerationDetails(move, exercise, stand, steps, distance, workout, prompt, imageFilepath) {
     const logData = {
         timestamp: new Date().toISOString(),
         move,
@@ -81,6 +81,7 @@ async function logGenerationDetails(move, exercise, stand, steps, distance, prom
         stand,
         steps,
         distance,
+        workout,
         prompt,
         imageFilepath
     };
@@ -96,10 +97,10 @@ async function logGenerationDetails(move, exercise, stand, steps, distance, prom
 }
 
 app.post('/generate-image', async (req, res) => {
-    const { move, exercise, stand, steps, distance } = req.body;
+    const { move, exercise, stand, steps, distance, workout } = req.body;
 
     try {
-        const generatedPrompt = await generatePrompt(move, exercise, stand, steps, distance);
+        const generatedPrompt = await generatePrompt(move, exercise, stand, steps, distance, workout);
         const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
         const response = await fetch('https://api.openai.com/v1/images/generations', {
             method: 'POST',
@@ -126,7 +127,7 @@ app.post('/generate-image', async (req, res) => {
             const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
 
             await saveImageToFile(imageUrls[0], imageFilepath);
-            await logGenerationDetails(move, exercise, stand, steps, distance, generatedPrompt, `/images/${imageFilename}`);
+            await logGenerationDetails(move, exercise, stand, steps, distance, workout, generatedPrompt, `/images/${imageFilename}`);
 
             res.json({ imageUrls, prompt: generatedPrompt, savedFilePath: imageFilepath });
         } else {

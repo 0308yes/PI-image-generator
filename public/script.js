@@ -6,6 +6,9 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
     const stand = document.getElementById('stand').value;
     const steps = document.getElementById('steps').value;
     const distance = document.getElementById('distance').value;
+    const workout = document.getElementById('workout').value;
+
+    showLoadingSpinner();
 
     // API 호출
     fetch('/generate-image', {
@@ -13,10 +16,11 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ move, exercise, stand, steps, distance }),
+        body: JSON.stringify({ move, exercise, stand, steps, distance, workout }),
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingSpinner();
         if (data.imageUrls) {
             displayImages(data.imageUrls, data.prompt);
             fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
@@ -25,10 +29,19 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
         }
     })
     .catch(error => {
+        hideLoadingSpinner();
         console.error('Error:', error);
         displayError(error);
     });
 });
+
+function showLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'block';
+}
+
+function hideLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'none';
+}
 
 function displayImages(imageUrls, prompt) {
     const imageContainer = document.getElementById('imageContainer');

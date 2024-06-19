@@ -32,7 +32,7 @@ document.getElementById('dataForm').addEventListener('submit', function(event) {
 
 function displayImages(imageUrls, prompt) {
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = imageUrls.map(url => `<img src="${url}" alt="Generated Image" style="width: 512px; height: auto;">`).join('');
+    imageContainer.innerHTML = imageUrls.map(url => `<img src="${url}" alt="Generated Image" style="width: 512px; height: auto; margin-top: 10px;">`).join('');
     if (prompt) {
         const promptElement = document.createElement('p');
         promptElement.innerText = `Generated Prompt: ${prompt}`;
@@ -42,7 +42,7 @@ function displayImages(imageUrls, prompt) {
 
 function displayError(error) {
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = `<p>Error generating image: ${error}</p>`;
+    imageContainer.innerHTML = `<p style="color: red;">Error generating image: ${error}</p>`;
 }
 
 function fetchLogs() {
@@ -84,7 +84,7 @@ function renderLogs(date, logs) {
             <h3>${date}</h3>
             ${logs.map(log => `
                 <div class="log-item" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-                    <img src="${log.imageFilepath}" alt="Log Image" style="width: 300px; height: auto;">
+                    <img src="${log.imageFilepath}" alt="Log Image" style="width: 300px; height: auto; margin-top: 10px;">
                     <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
                 </div>
             `).join('')}
@@ -99,7 +99,7 @@ function displayTodayLogs(logs) {
         .filter(log => new Date(log.timestamp).toLocaleDateString() === today)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // 최신순으로 정렬
 
-    logContainer.innerHTML = renderLogs(today, todayLogs);
+    logContainer.innerHTML = todayLogs.length > 0 ? renderLogs(today, todayLogs) : `<p>No logs for today.</p>`;
 }
 
 function displayAllLogs(logs) {

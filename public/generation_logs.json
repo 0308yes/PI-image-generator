@@ -188,5 +188,25 @@
     "distance": "3",
     "prompt": "A vibrant, impressionist painting of a bustling market filled with people moving energetically. There are shoppers walking briskly, vendors animatedly interacting, and children playing around. The colors are bright and dynamic, reflecting the energy and activity of the scene. The stalls are adorned with fresh, colorful produce and flowers, while the background shows a busy street with silhouettes of people walking and bicycling. The whole scene should evoke a sense of constant motion, community engagement, and lively atmosphere.",
     "imageFilepath": "/images/image_1718811961265.png"
+  },
+  {
+    "timestamp": "2024-06-19T16:26:10.755Z",
+    "move": "23",
+    "exercise": "43",
+    "stand": "23",
+    "steps": "4",
+    "distance": "32",
+    "prompt": "A vibrant abstract painting of an energetic figure in motion, with swirling patterns and dynamic colors representing activity and movement. The background features a blend of cool and warm hues to symbolize both calm and exertion, with hints of trails and lines suggesting extensive travels and standing points scattered throughout the composition.",
+    "imageFilepath": "/images/image_1718814367737.png"
+  },
+  {
+    "timestamp": "2024-06-19T16:27:35.453Z",
+    "move": "23",
+    "exercise": "43",
+    "stand": "23",
+    "steps": "4",
+    "distance": "32",
+    "prompt": "A serene Japanese garden at dusk, with intricate rock patterns symbolizing the path taken, a koi pond reflecting movement, a stone lantern emitting a soft glow symbolizing energy, and beautifully arranged stepping stones creating a tranquil yet purposeful ambiance – in an impressionist style.",
+    "imageFilepath": "/images/image_1718814452970.png"
   }
 ]

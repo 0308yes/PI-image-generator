@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+h1 {
+    background-color: #5ad88a;
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5ad88a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+#imageContainer {
+    margin-top: 20px;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.action-button:hover {
+    background-color: #1e87e5;
+}
+
+h2 {
+    margin-top: 40px;
+}
+
+#logContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.log-date-group {
+    margin-bottom: 20px;
+}
+
+.log-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+}
+
+.log-item img {
+    width: 300px;
+    height: auto;
+    margin-top: 10px;
+}
+
+.log-item p {
+    margin: 5px 0;
+}

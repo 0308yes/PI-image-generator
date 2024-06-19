@@ -33,9 +33,10 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
             1. Extract keywords based on the interpretation of the data before generating the image. The image should be generated based on these keywords.
             2. Do not include any numbers, letters, or text in the drawing.
             3. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
-            4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Avoid drawing objects that directly depict “physical activity” and “personal data”.
+            4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Do not draw objects that directly depict “physical activity” and “personal data”.
             5. Upon regeneration, ensure the new image is based on different subjects or keywords from the previous one.
             6. The subject, mood, texture, and style of the image should vary with each generation to maintain diversity and creativity.
+            7. Draw in one of the following styles: painting, photo, sketch, cartoon, impressionist, abstract, renaissance.
             `
         }
     ];

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const csv = require('csv-parser');
 const fs = require('fs');
-// const fetch = require('node-fetch'); // node-fetch 에러로 주석처리
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 // GPT로 이미지 프롬프트 생성
 async function generatePrompt(move, exercise, stand, steps, distance) {
-    const fetch = await import('node-fetch').then(mod => mod.default); // 여기 바꿈
+    const fetch = await import('node-fetch').then(mod => mod.default); 
     const messages = [
         {
             role: "system",
@@ -30,12 +30,12 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
             role: "system",
             content: `
             Image Generation Rules:
-            1. Extract a keyword based on the interpretation of the data before generating the image. The image should be generated based on this keyword that represents the provided data.
+            1. Extract keywords based on the interpretation of the data before generating the image. The image should be generated based on these keywords.
             2. Do not include any numbers, letters, or text in the drawing.
             3. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
-            4. When generating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Avoid drawing objects that directly depict “physical activity” and “personal data”.
-            5. Draw in one of the following styles: painting, photo, sketch, cartoon, impressionist, abstract, renaissance.
-            6. Draw in a different styles of an image emobodying different aesthetics.
+            4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Avoid drawing objects that directly depict “physical activity” and “personal data”.
+            5. Upon regeneration, ensure the new image is based on different subjects or keywords from the previous one.
+            6. The subject, mood, texture, and style of the image should vary with each generation to maintain diversity and creativity.
             `
         }
     ];
@@ -68,6 +68,14 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
     }
 }
 
+async function saveImageToFile(url, filepath) {
+    const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    fs.writeFileSync(filepath, buffer);
+    console.log(`Image saved to ${filepath}`);
+}
+
 app.post('/generate-image', async (req, res) => {
     const { move, exercise, stand, steps, distance } = req.body;
 
@@ -93,7 +101,12 @@ app.post('/generate-image', async (req, res) => {
 
         if (response.ok) {
             const imageUrls = data.data.map(image => image.url);
-            res.json({ imageUrls, prompt: generatedPrompt });
+            const timestamp = Date.now();
+            const filepath = path.join(__dirname, 'images', `image_${timestamp}.png`);
+
+            await saveImageToFile(imageUrls[0], filepath);
+
+            res.json({ imageUrls, prompt: generatedPrompt, savedFilePath: filepath });
         } else {
             console.error('OpenAI API Error:', data);
             res.status(500).json({ error: 'Failed to generate image', details: data });
@@ -127,10 +140,10 @@ app.post('/upload-csv', upload.single('csvFile'), (req, res) => {
                         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
                     },
                     body: JSON.stringify({
-                        model: 'dall-e-2',
+                        model: 'dall-e-3',
                         prompt: generatedPrompt,
-                        n: 3,
-                        size: "512x512",
+                        n: 1,
+                        size: "1024x1024",
                     }),
                 });
 
@@ -139,7 +152,12 @@ app.post('/upload-csv', upload.single('csvFile'), (req, res) => {
 
                 if (response.ok) {
                     const imageUrls = data.data.map(image => image.url);
-                    res.json({ imageUrls });
+                    const timestamp = Date.now();
+                    const filepath = path.join(__dirname, 'images', `image_${timestamp}.png`);
+
+                    await saveImageToFile(imageUrls[0], filepath);
+
+                    res.json({ imageUrls, savedFilePath: filepath });
                 } else {
                     console.error('OpenAI API Error:', data);
                     res.status(500).json({ error: 'Failed to generate image', details: data });

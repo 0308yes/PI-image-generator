@@ -3,18 +3,46 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require("mongoose");
+const {
+    Schema
+} = mongoose;
 
 const app = express();
-const PORT = 3000;
-
+const PORT = 3001;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public'))); // 정적 파일 제공 경로 설정
+///------------------------------------------------///
+
+
+///--------------------- DB  ---------------------------///
+(async () => {
+    try {
+        mongoose.connect(process.env.MONGODB_URI);
+        console.log("Connected to Mongo Successfully!");
+    } catch (error) {
+        console.log(error);
+    }
+})()
+
+const messageSchema = new mongoose.Schema({
+    data: mongoose.Schema.Types.Mixed,
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+
+const Message = mongoose.model('Message', messageSchema)
+
+
+///--------------------- DB  ---------------------------///
 
 // GPT로 이미지 프롬프트 생성
 async function generatePrompt(move, exercise, stand, steps, distance) {
-    const fetch = await import('node-fetch').then(mod => mod.default); 
-    const messages = [
-        {
+    const fetch = await import('node-fetch').then(mod => mod.default);
+    const messages = [{
             role: "system",
             content: `You are an assistant that creates images to support self-reflection by interpreting personal data. Given the user's physical activity data, create an image that reflects your interpretation of this data using DALL-E. Your goal is to generate a creative and original image prompt for DALL-E to produce an image. The output should only be the image prompt.`
         },
@@ -36,7 +64,6 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
             `
         }
     ];
-
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -65,6 +92,7 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
     }
 }
 
+//이미지 파일 저장 
 async function saveImageToFile(url, filepath) {
     const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
     const response = await fetch(url);
@@ -72,7 +100,7 @@ async function saveImageToFile(url, filepath) {
     fs.writeFileSync(filepath, buffer);
     console.log(`Image saved to ${filepath}`);
 }
-
+//데이터 저장 
 async function logGenerationDetails(move, exercise, stand, steps, distance, prompt, imageFilepath) {
     const logData = {
         timestamp: new Date().toISOString(),
@@ -84,6 +112,17 @@ async function logGenerationDetails(move, exercise, stand, steps, distance, prom
         prompt,
         imageFilepath
     };
+    let message = new Message({
+        data: logData
+    });
+    try {
+        await message.save()
+        console.log('log data saved')
+    } catch (err) {
+        console.error("Error saving log data:", err);
+        res.sendStatus(500);
+    }
+
 
     const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
     let logs = [];
@@ -95,9 +134,15 @@ async function logGenerationDetails(move, exercise, stand, steps, distance, prom
     console.log('Generation details logged.');
 }
 
+//이미지 생성 
 app.post('/generate-image', async (req, res) => {
-    const { move, exercise, stand, steps, distance } = req.body;
-
+    const {
+        move,
+        exercise,
+        stand,
+        steps,
+        distance
+    } = req.body;
     try {
         const generatedPrompt = await generatePrompt(move, exercise, stand, steps, distance);
         const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
@@ -128,14 +173,24 @@ app.post('/generate-image', async (req, res) => {
             await saveImageToFile(imageUrls[0], imageFilepath);
             await logGenerationDetails(move, exercise, stand, steps, distance, generatedPrompt, `/images/${imageFilename}`);
 
-            res.json({ imageUrls, prompt: generatedPrompt, savedFilePath: imageFilepath });
+            res.json({
+                imageUrls,
+                prompt: generatedPrompt,
+                savedFilePath: imageFilepath
+            });
         } else {
             console.error('OpenAI API Error:', data);
-            res.status(500).json({ error: 'Failed to generate image', details: data });
+            res.status(500).json({
+                error: 'Failed to generate image',
+                details: data
+            });
         }
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to generate image', details: error });
+        res.status(500).json({
+            error: 'Failed to generate image',
+            details: error
+        });
     }
 });
 

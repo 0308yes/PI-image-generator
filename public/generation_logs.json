@@ -1,5 +1,15 @@
 [
   {
+    "timestamp": "2024-06-17T12:16:18.713Z",
+    "move": "3",
+    "exercise": "3",
+    "stand": "3",
+    "steps": "3",
+    "distance": "3",
+    "prompt": "\"A serene forest path at sunrise, highlighting the delicate balance of nature with blooming flowers, a gently flowing river, and three birds flying harmoniously in a triangle formation, depicted in an impressionist style with vibrant colors and soft brushstrokes.\"",
+    "imageFilepath": "/images/image_1718795034606.png"
+  },
+  {
     "timestamp": "2024-06-18T12:16:18.713Z",
     "move": "3",
     "exercise": "3",
@@ -272,5 +282,35 @@
     "distance": "1",
     "prompt": "A serene forest scene at dawn with vibrant colors, a path reflecting a journey, and a glowing aura around one spot on the ground representing energy and movement, painted in an impressionist style.",
     "imageFilepath": "/images/image_1718870946473.png"
+  },
+  {
+    "timestamp": "2024-06-20T08:26:26.882Z",
+    "move": "3",
+    "exercise": "3",
+    "stand": "3",
+    "steps": "3",
+    "distance": "3",
+    "prompt": "Prompt for DALL-E: \"An abstract painting featuring vibrant, swirling colors to represent energy and movement. Shapeless forms weave dynamically through the scene, suggesting fluid motion and an inner pulse of vitality. Radiant light bursts from multiple points, symbolizing small yet intense moments of activity throughout the day. The mood is vibrant and energetic, with a sense of continuous, gentle activity.\"",
+    "imageFilepath": "/images/image_1718871984321.png"
+  },
+  {
+    "timestamp": "2024-06-20T08:38:05.379Z",
+    "move": "5",
+    "exercise": "5",
+    "stand": "5",
+    "steps": "5",
+    "distance": "5",
+    "prompt": "A serene abstract painting of a small boat on a wide, calm sea under a colorful sunset, with gentle waves symbolizing minimal but significant movement and luminescent fish beneath the water symbolizing hidden depth and potential.",
+    "imageFilepath": "/images/image_1718872683527.png"
+  },
+  {
+    "timestamp": "2024-06-20T08:44:25.412Z",
+    "move": "2",
+    "exercise": "2",
+    "stand": "2",
+    "steps": "222",
+    "distance": "2",
+    "prompt": "\"An almost stationary snail under a magnifying glass in a serene and tranquil garden setting with puffy abstract clouds overhead.\"",
+    "imageFilepath": "/images/image_1718873062980.png"
   }
 ]

@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public'))); // 정적 파일 제공 경로 설정
 
-//-------------- GPT로 이미지 프롬프트 생성
+// GPT로 이미지 프롬프트 생성
 async function generatePrompt(move, exercise, stand, steps, distance) {
     const fetch = await import('node-fetch').then(mod => mod.default); 
     const messages = [
@@ -65,7 +65,6 @@ async function generatePrompt(move, exercise, stand, steps, distance) {
     }
 }
 
-//-------------- 이미지 저장
 async function saveImageToFile(url, filepath) {
     const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
     const response = await fetch(url);
@@ -74,7 +73,6 @@ async function saveImageToFile(url, filepath) {
     console.log(`Image saved to ${filepath}`);
 }
 
-//-------------- 이미지 메타데이터
 async function logGenerationDetails(move, exercise, stand, steps, distance, prompt, imageFilepath) {
     const logData = {
         timestamp: new Date().toISOString(),
@@ -97,7 +95,6 @@ async function logGenerationDetails(move, exercise, stand, steps, distance, prom
     console.log('Generation details logged.');
 }
 
-//-------------- DALL-E 이미지 생성
 app.post('/generate-image', async (req, res) => {
     const { move, exercise, stand, steps, distance } = req.body;
 

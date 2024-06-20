@@ -231,5 +231,40 @@
     "workout": "Outdoor walk",
     "prompt": "A serene nature scene in impressionist style showing a dynamic and colorful sunrise over a peaceful meadow with wildflowers, and a path emerging from a dense forest canopy into the open fields. The scene captures a single figure partaking in a meditative moment, surrounded by the quiet and calm of early morning with dew glistening on the leaves. The energy of the day is hinted through the vibrant colors and the figure's poised yet relaxed stance amid nature's beauty.",
     "imageFilepath": "/images/image_1718815958713.png"
+  },
+  {
+    "timestamp": "2024-06-19T17:02:14.397Z",
+    "move": "211",
+    "exercise": "23",
+    "stand": "23",
+    "steps": "2323",
+    "distance": "2",
+    "workout": "outdoor walk",
+    "prompt": "\"A vibrant abstract painting of flowing energy lines in warm colors, symbolizing movement and activity, intertwined with cool calming waves representing balance and recovery, with an earthy texture reflecting the connection to nature.\"",
+    "imageFilepath": "/images/image_1718816532745.png"
+  },
+  {
+    "timestamp": "2024-06-20T02:16:48.725Z",
+    "move": "322",
+    "exercise": "4",
+    "stand": "4",
+    "steps": "4",
+    "distance": "4",
+    "prompt": "Abstract painting reflecting energy, momentum, and vitality: vibrant swirling colors representing movement and dynamism, with sharp lines intertwining to show intersected paths and swift shifts in direction, surrounded by a sense of vast space to illustrate continual progress and distance covered.",
+    "imageFilepath": "/images/image_1718849807217.png"
+  },
+  {
+    "timestamp": 1718850007113,
+    "mood": "worried, happy",
+    "note": "해야되는 일들이 많아서 마음이 무겁지만 동시에 다시 잘 해보고 싶은 마음이 생겨서 기쁘다.",
+    "prompt": "A serene and vibrant abstract painting featuring swirling colors of blue and yellow. One side of the painting has darker shades representing a somber mood, while the other side has bright, uplifting tones symbolizing happiness. In between, there are dynamic lines that signify the tension and balance between these emotions.",
+    "imageFilepath": "/images/image_1718850007113.png"
+  },
+  {
+    "timestamp": 1718850073657,
+    "mood": "worried, happy",
+    "note": "해야되는 일들이 많아서 마음이 무겁지만 동시에 다시 잘 해보고 싶은 마음이 생겨서 기쁘다.",
+    "prompt": "A serene meadow under a partly cloudy sky with bright sunshine casting light and shadows. A path winding through the meadow represents various tasks, while cheerful wildflowers and butterflies symbolize the joy of new beginnings. The horizon can show slightly darker clouds to hint at the worry of having many tasks, but overall the image remains uplifting and hopeful. (style: impressionist)",
+    "imageFilepath": "/images/image_1718850073657.png"
   }
 ]

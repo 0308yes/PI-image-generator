@@ -1,22 +1,51 @@
+document.getElementById('dataType').addEventListener('change', function() {
+    const dataType = this.value;
+    const physicalDataFields = document.getElementById('physicalDataFields');
+    const moodDataFields = document.getElementById('moodDataFields');
+
+    if (dataType === 'physical') {
+        physicalDataFields.style.display = 'block';
+        moodDataFields.style.display = 'none';
+    } else if (dataType === 'mood') {
+        physicalDataFields.style.display = 'none';
+        moodDataFields.style.display = 'block';
+    }
+});
+
 document.getElementById('dataForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const move = document.getElementById('move').value;
-    const exercise = document.getElementById('exercise').value;
-    const stand = document.getElementById('stand').value;
-    const steps = document.getElementById('steps').value;
-    const distance = document.getElementById('distance').value;
-    const workout = document.getElementById('workout').value;
-
+    const dataType = document.getElementById('dataType').value;
+    const formData = new FormData(document.getElementById('dataForm'));
     showLoadingSpinner();
 
-    // API 호출
-    fetch('/generate-image', {
+    let url = '';
+    let body = {};
+
+    if (dataType === 'physical') {
+        url = '/generate-image-physical';
+        body = {
+            move: formData.get('move'),
+            exercise: formData.get('exercise'),
+            stand: formData.get('stand'),
+            steps: formData.get('steps'),
+            distance: formData.get('distance')
+        };
+    } else if (dataType === 'mood') {
+        url = '/generate-image-mood';
+        body = {
+            timestamp: formData.get('timestamp'),
+            mood: formData.get('mood'),
+            note: formData.get('note')
+        };
+    }
+
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ move, exercise, stand, steps, distance, workout }),
+        body: JSON.stringify(body),
     })
     .then(response => response.json())
     .then(data => {

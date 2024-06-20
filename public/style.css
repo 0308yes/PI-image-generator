@@ -33,7 +33,7 @@ label {
     font-weight: bold;
 }
 
-input[type="number"], input[type="text"] {
+input[type="number"], input[type="text"], input[type="datetime-local"], select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;

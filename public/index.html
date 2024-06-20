@@ -10,33 +10,55 @@
     <h1>Self-Tracking Image Generator</h1>
     <form id="dataForm">
         <div class="form-group">
-            <label for="move">Move:</label>
-            <input type="number" id="move" name="move" required>
+            <label for="dataType">Data Type:</label>
+            <select id="dataType" name="dataType" required>
+                <option value="physical">Physical Activity Data</option>
+                <option value="mood">Mood Tracking Data</option>
+            </select>
         </div>
 
-        <div class="form-group">
-            <label for="exercise">Exercise:</label>
-            <input type="number" id="exercise" name="exercise" required>
+        <div id="physicalDataFields">
+            <div class="form-group">
+                <label for="move">Move:</label>
+                <input type="number" id="move" name="move">
+            </div>
+
+            <div class="form-group">
+                <label for="exercise">Exercise:</label>
+                <input type="number" id="exercise" name="exercise">
+            </div>
+
+            <div class="form-group">
+                <label for="stand">Stand:</label>
+                <input type="number" id="stand" name="stand">
+            </div>
+
+            <div class="form-group">
+                <label for="steps">Steps:</label>
+                <input type="number" id="steps" name="steps">
+            </div>
+
+            <div class="form-group">
+                <label for="distance">Distance (km):</label>
+                <input type="number" id="distance" name="distance">
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="stand">Stand:</label>
-            <input type="number" id="stand" name="stand" required>
-        </div>
+        <div id="moodDataFields" style="display: none;">
+            <div class="form-group">
+                <label for="timestamp">Timestamp:</label>
+                <input type="datetime-local" id="timestamp" name="timestamp">
+            </div>
 
-        <div class="form-group">
-            <label for="steps">Steps:</label>
-            <input type="number" id="steps" name="steps" required>
-        </div>
+            <div class="form-group">
+                <label for="mood">Mood:</label>
+                <input type="text" id="mood" name="mood">
+            </div>
 
-        <div class="form-group">
-            <label for="distance">Distance (km):</label>
-            <input type="number" id="distance" name="distance" required>
-        </div>
-
-        <div class="form-group">
-            <label for="workout">Workout:</label>
-            <input type="text" id="workout" name="workout" required>
+            <div class="form-group">
+                <label for="note">Note:</label>
+                <input type="text" id="note" name="note">
+            </div>
         </div>
 
         <button type="submit" class="submit-button">Submit</button>

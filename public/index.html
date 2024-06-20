@@ -1,82 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Tracking Image Generator</title>
-    <link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Tracking Image Generator</title>
+<link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
 </head>
 <body>
-    <h1>Self-Tracking Image Generator</h1>
-    <form id="dataForm">
-        <div class="form-group">
-            <label for="dataType">Data Type:</label>
-            <select id="dataType" name="dataType" required>
-                <option value="physical">Physical Activity Data</option>
-                <option value="mood">Mood Tracking Data</option>
-            </select>
-        </div>
-
-        <div id="physicalDataFields">
-            <div class="form-group">
-                <label for="move">Move:</label>
-                <input type="number" id="move" name="move">
-            </div>
-
-            <div class="form-group">
-                <label for="exercise">Exercise:</label>
-                <input type="number" id="exercise" name="exercise">
-            </div>
-
-            <div class="form-group">
-                <label for="stand">Stand:</label>
-                <input type="number" id="stand" name="stand">
-            </div>
-
-            <div class="form-group">
-                <label for="steps">Steps:</label>
-                <input type="number" id="steps" name="steps">
-            </div>
-
-            <div class="form-group">
-                <label for="distance">Distance (km):</label>
-                <input type="number" id="distance" name="distance">
-            </div>
-        </div>
-
-        <div id="moodDataFields" style="display: none;">
-            <div class="form-group">
-                <label for="timestamp">Timestamp:</label>
-                <input type="datetime-local" id="timestamp" name="timestamp">
-            </div>
-
-            <div class="form-group">
-                <label for="mood">Mood:</label>
-                <input type="text" id="mood" name="mood">
-            </div>
-
-            <div class="form-group">
-                <label for="note">Note:</label>
-                <input type="text" id="note" name="note">
-            </div>
-        </div>
-
-        <button type="submit" class="submit-button">Submit</button>
-    </form>
-
-    <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
-    
-    <h2>Generated Image</h2>
-    <div id="imageContainer"></div>
-
-    <div class="button-container">
-        <button id="btn2" class="action-button">Today</button>
-        <button id="btn1" class="action-button">History</button>
+<h1>Self-Tracking Image Generator</h1>
+<form id="dataForm">
+    <div class="form-group">
+        <label for="move">Move:</label>
+        <input type="number" id="move" name="move" required>
+    </div> 
+    <div class="form-group">
+        <label for="exercise">Exercise:</label>
+        <input type="number" id="exercise" name="exercise" required>
     </div>
+    <div class="form-group">
+        <label for="stand">Stand:</label>
+        <input type="number" id="stand" name="stand" required>
+    </div>
+    <div class="form-group">
+        <label for="steps">Steps:</label>
+        <input type="number" id="steps" name="steps" required>
+    </div>
+    <div class="form-group">
+        <label for="distance">Distance (km):</label>
+        <input type="number" id="distance" name="distance" required>
+    </div>
+    <button type="submit" class="submit-button">Submit</button>
+</form>
 
-    <h2>Image Log</h2>
-    <div id="logContainer"></div>
+<div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
 
-    <script src="script.js?v=1"></script> <!-- 캐시 무효화-->
+<h2>Generated Image</h2>
+<div id="imageContainer"></div>
+
+<div class="tab-container">
+    <button id="logTab" class="tab-button active" onclick="showTab('log')">Image Log</button>
+    <button id="calendarTab" class="tab-button" onclick="showTab('calendar')">Calendar</button>
+</div>
+
+<div id="calendar" class="tab-content" style="display:none;"></div>
+
+<div class="button-container" id="buttonContainer" style="display: none;">
+    <button id="btn2" class="action-button">Today</button>
+    <button id="btn1" class="action-button">History</button>
+</div>
+
+<div id="logContainer" class="tab-content"></div>
+
+<script src="script.js?v=1"></script> <!-- 캐시 무효화-->
 </body>
 </html>

@@ -7,7 +7,7 @@ body {
 }
 
 h1 {
-    background-color: #5ad88a;
+    background-color: #51ea61;
     color: white;
     padding: 20px 0;
     margin-bottom: 20px;
@@ -42,9 +42,9 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 }
 
 .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #5ad88a;
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #85e78f;
     color: white;
     border: none;
     border-radius: 4px;
@@ -53,7 +53,7 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 }
 
 .submit-button:hover {
-    background-color: #45a049;
+    background-color: #72c87b;
 }
 
 #loadingSpinner {
@@ -76,6 +76,39 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
     margin-top: 20px;
 }
 
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #e77ee7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab-button.active {
+    background-color: #bf68bf;
+}
+
+.tab-content {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: left;
+    display: none;
+}
+
+#calendar {
+    display: block;
+}
+
+
 .button-container {
     margin-top: 20px;
 }
@@ -83,7 +116,7 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 .action-button {
     padding: 10px 20px;
     margin: 0 10px;
-    background-color: #2196F3;
+    background-color: #e77ee7;
     color: white;
     border: none;
     border-radius: 4px;
@@ -92,7 +125,7 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 }
 
 .action-button:hover {
-    background-color: #1e87e5;
+    background-color: #bf68bf;
 }
 
 h2 {
@@ -102,7 +135,7 @@ h2 {
 #logContainer {
     max-width: 600px;
     margin: 20px auto;
-    text-align: middle;
+    text-align: left;
 }
 
 .log-date-group {
@@ -110,19 +143,86 @@ h2 {
 }
 
 .log-item {
+    display: flex;
     border: 1px solid #ccc;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px;
     background: white;
     border-radius: 4px;
 }
 
-.log-item img {
-    width: 300px;
-    height: auto;
-    margin-top: 10px;
+.log-content {
+    display: flex;
 }
 
-.log-item p {
+.log-item img {
+    width: 250px;
+    height: 250px;
+    margin-right: 20px;
+}
+
+.log-details {
+    flex-grow: 1;
+}
+
+.log-details p {
     margin: 5px 0;
 }
+
+#calendar {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.calendar-header h2 {
+    margin: 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.calendar-cell {
+    height: 80px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.calendar-cell img {
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.calendar-cell .date {
+    font-weight: bold;
+}
+
+.event-image {
+    width: 100px; 
+    height: auto;
+    margin-top: 5px;
+    border-radius: 5px; /* 라운드값 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.event-image:hover {
+    transform: scale(1.1); /* 호버시 확대 */
+}
+

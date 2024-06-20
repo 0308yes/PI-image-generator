@@ -254,17 +254,23 @@
     "imageFilepath": "/images/image_1718849807217.png"
   },
   {
-    "timestamp": 1718850007113,
-    "mood": "worried, happy",
-    "note": "해야되는 일들이 많아서 마음이 무겁지만 동시에 다시 잘 해보고 싶은 마음이 생겨서 기쁘다.",
-    "prompt": "A serene and vibrant abstract painting featuring swirling colors of blue and yellow. One side of the painting has darker shades representing a somber mood, while the other side has bright, uplifting tones symbolizing happiness. In between, there are dynamic lines that signify the tension and balance between these emotions.",
-    "imageFilepath": "/images/image_1718850007113.png"
+    "timestamp": "2024-06-20T05:52:46.350Z",
+    "move": "43",
+    "exercise": "34",
+    "stand": "22",
+    "steps": "2000",
+    "distance": "3",
+    "prompt": "A serene forest scene at sunrise with golden light filtering through the leaves, animals like a deer and squirrel moving gently, and vibrant autumn leaves falling in slow motion, creating a sense of calm and gentle movement in an impressionist style.",
+    "imageFilepath": "/images/image_1718862763662.png"
   },
   {
-    "timestamp": 1718850073657,
-    "mood": "worried, happy",
-    "note": "해야되는 일들이 많아서 마음이 무겁지만 동시에 다시 잘 해보고 싶은 마음이 생겨서 기쁘다.",
-    "prompt": "A serene meadow under a partly cloudy sky with bright sunshine casting light and shadows. A path winding through the meadow represents various tasks, while cheerful wildflowers and butterflies symbolize the joy of new beginnings. The horizon can show slightly darker clouds to hint at the worry of having many tasks, but overall the image remains uplifting and hopeful. (style: impressionist)",
-    "imageFilepath": "/images/image_1718850073657.png"
+    "timestamp": "2024-06-20T08:09:08.943Z",
+    "move": "333",
+    "exercise": "23",
+    "stand": "1",
+    "steps": "22",
+    "distance": "1",
+    "prompt": "A serene forest scene at dawn with vibrant colors, a path reflecting a journey, and a glowing aura around one spot on the ground representing energy and movement, painted in an impressionist style.",
+    "imageFilepath": "/images/image_1718870946473.png"
   }
 ]

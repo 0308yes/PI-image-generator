@@ -169,7 +169,8 @@ function fetchLogs() {
 
 //-------------- 로그 정렬
 function groupLogsByDate(logs) {
-    const grouped = logs.reduce((acc, log) => {
+
+    const grouped = logs[0].reduce((acc, log) => {
         const date = new Date(log.timestamp).toLocaleDateString();
         if (!acc[date]) {
             acc[date] = [];
@@ -333,7 +334,7 @@ function toggleButton(button) {
 // 날짜별 로그
 function displayLogsByDate(date, logs) {
     const logDetailContainer = document.getElementById('logDetailContainer');
-    const dateLogs = logs
+    const dateLogs = logs[0]
         .filter(log => new Date(log.timestamp).toLocaleDateString() === date)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 

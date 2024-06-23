@@ -211,7 +211,7 @@ function renderLogs(date, logs, showNavigation = false) {
                 ${log && typeof log === 'object' ? `
                     <div class="log-item">
                         <div class="log-content">
-                            <img src="${log.imageFilepath}" alt="Log Image">
+                            <img src="${log.imagePath}" alt="Log Image">
                             <div class="log-details">
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
@@ -399,7 +399,7 @@ function generateCalendarCells(month, year, groupedLogs) {
         cells += `
             <div class="calendar-cell" data-date="${dateStr}">
                 <div class="date">${i}</div>
-                ${logs ? `<img src="${logs[0].imageFilepath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
+                ${logs ? `<img src="${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
             </div>
         `;
     }

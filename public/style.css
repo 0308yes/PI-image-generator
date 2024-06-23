@@ -33,7 +33,10 @@ label {
     font-weight: bold;
 }
 
-input[type="number"], input[type="text"], input[type="datetime-local"], select {
+input[type="number"],
+input[type="text"],
+input[type="datetime-local"],
+select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -68,8 +71,13 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 #imageContainer {
@@ -214,15 +222,22 @@ h2 {
 }
 
 .event-image {
-    width: 100px; 
+    width: 100px;
     height: auto;
     margin-top: 5px;
-    border-radius: 5px; /* 라운드값 */
+    border-radius: 5px;
+    /* 라운드값 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
 
 .event-image:hover {
-    transform: scale(1.1); /* 호버시 확대 */
+    transform: scale(1.1);
+    /* 호버시 확대 */
 }
 
+table,
+th,
+td {
+    border: 1px solid black;
+}

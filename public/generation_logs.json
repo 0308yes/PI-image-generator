@@ -312,5 +312,25 @@
     "distance": "2",
     "prompt": "\"An almost stationary snail under a magnifying glass in a serene and tranquil garden setting with puffy abstract clouds overhead.\"",
     "imageFilepath": "/images/image_1718873062980.png"
+  },
+  {
+    "timestamp": "2024-06-21T09:25:14.232Z",
+    "move": "2",
+    "exercise": "2",
+    "stand": "3",
+    "steps": "1",
+    "distance": "3",
+    "prompt": "A serene, minimalist abstract painting depicting a single, faint, winding grey line on a vast canvas, meandering through a tranquil expanse of soft, muted colors like pastel greens and blues, symbolizing minimal movement and a long journey.",
+    "imageFilepath": "/images/image_1718961910010.png"
+  },
+  {
+    "timestamp": "2024-06-23T04:08:06.848Z",
+    "move": "1",
+    "exercise": "1",
+    "stand": "1",
+    "steps": "1",
+    "distance": "1",
+    "prompt": "A lone mountain peak under a serenely dawning sky, with a single flower blooming at its summit, expressing resilience and new beginnings in an impressionist style.",
+    "imageFilepath": "/images/image_1719115681058.png"
   }
 ]

@@ -1,56 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Self-Tracking Image Generator</title>
-<link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
 </head>
+
 <body>
-<h1>Self-Tracking Image Generator</h1>
-<form id="dataForm">
-    <div class="form-group">
-        <label for="move">Move:</label>
-        <input type="number" id="move" name="move" required>
-    </div> 
-    <div class="form-group">
-        <label for="exercise">Exercise:</label>
-        <input type="number" id="exercise" name="exercise" required>
-    </div>
-    <div class="form-group">
-        <label for="stand">Stand:</label>
-        <input type="number" id="stand" name="stand" required>
-    </div>
-    <div class="form-group">
-        <label for="steps">Steps:</label>
-        <input type="number" id="steps" name="steps" required>
-    </div>
-    <div class="form-group">
-        <label for="distance">Distance (km):</label>
-        <input type="number" id="distance" name="distance" required>
-    </div>
-    <button type="submit" class="submit-button">Generate Image</button>
-</form>
 
-<div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
+    <h2>Login</h2>
+    <form id="dataForm">
+        <div class="form-group">
+            <input type="text" id="ID" placeholder="ID" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
 
-<h2>Generated Image</h2>
-<div id="imageContainer"></div>
-
-<div class="tab-container">
-    <button id="logTab" class="tab-button active" onclick="showTab('log')">Image Log</button>
-    <button id="calendarTab" class="tab-button" onclick="showTab('calendar')">Calendar</button>
-</div>
-
-<div id="calendar" class="tab-content" style="display:none;"></div>
-
-<div class="button-container" id="buttonContainer" style="display: none;">
-    <button id="btn2" class="action-button">Today</button>
-    <button id="btn1" class="action-button">History</button>
-</div>
-
-<div id="logContainer" class="tab-content"></div>
-
-<script src="script.js?v=1"></script> <!-- 캐시 무효화-->
+    <script src="login.js?v=1"></script> <!-- Cache busting -->
 </body>
-</html>

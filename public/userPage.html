@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Tracking Image Generator</title>
+    <link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
+</head>
+
+<body>
+    <h1>Self-Tracking Image Generator</h1>
+    <form id="dataForm">
+        <button type="submit" id="submit-button" class="submit-button">Generate Image</button>
+    </form>
+
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
+
+    <h2>Generated Image</h2>
+    <div id="imageContainer"></div>
+
+    <div class="tab-container">
+        <button id="logTab" class="tab-button active">Image Log</button>
+        <button id="calendarTab" class="tab-button">Calendar</button>
+    </div>
+    
+
+    <div id="calendar" class="tab-content" style="display:none;"></div>
+
+    <div class="button-container" id="buttonContainer" style="display: none;">
+        <button id="btn2" class="action-button">Today</button>
+        <button id="btn1" class="action-button">History</button>
+    </div>
+
+    <div id="logContainer" class="tab-content"></div>
+
+    <script type="module" src="userPage.js"></script> <!-- 캐시 무효화-->
+</body>
+
+</html>

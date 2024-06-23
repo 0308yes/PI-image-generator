@@ -1,16 +1,21 @@
+* {
+    font-family: "Roboto", sans-serif !important; /* 폰트 전체 적용 */
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Roboto", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #F2F2F5;
     text-align: center;
 }
 
 h1 {
-    background-color: #51ea61;
-    color: white;
+    background-color: #eaeaea;
+    color: black;
     padding: 20px 0;
     margin-bottom: 20px;
+    font-size: 20px;
 }
 
 form {
@@ -33,10 +38,7 @@ label {
     font-weight: bold;
 }
 
-input[type="number"],
-input[type="text"],
-input[type="datetime-local"],
-select {
+input[type="number"], input[type="text"], input[type="datetime-local"], select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -59,6 +61,18 @@ select {
     background-color: #72c87b;
 }
 
+.weekly-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    margin-top: 10px;
+    background-color: #85e7df;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 #loadingSpinner {
     display: none;
     border: 16px solid #f3f3f3;
@@ -71,18 +85,15 @@ select {
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 #imageContainer {
     margin-top: 20px;
 }
+
+/* -------------- Image Log | Calendar 버튼 */
 
 .tab-container {
     display: flex;
@@ -93,17 +104,57 @@ select {
 .tab-button {
     padding: 10px 20px;
     margin: 0 10px;
-    background-color: #e77ee7;
-    color: white;
+    background-color: #F2F2F5;
+    color: #9A9AAF;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 12px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .tab-button.active {
-    background-color: #bf68bf;
+    background-color: white;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 */
 }
+
+.tab-button:hover {
+    background-color: #E5E5E5; /* 호버시 어둡게 */
+    color: #000000; /* 호버시 글자색 */
+}
+
+/* -------------- Today | Histoy 버튼 */
+.button-container {
+    margin-top: 20px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: white;
+    color: black;
+    border: 1px solid #EBEBF2;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* 활성화된 버튼 스타일 */
+.action-button.active {
+    background-color: #000 !important; /* 검정색 배경 */
+    color: white !important; /* 흰색 텍스트 */
+    border-color: #000 !important; /* 검정색 테두리 */
+}
+
+/* 호버 효과 */
+.action-button:hover {
+    background-color: #f0f0f0; /* 밝은 회색 배경 */
+    border-color: #ccc; /* 기본 테두리 색상 */
+}
+
+/* -------------- */
 
 .tab-content {
     max-width: 600px;
@@ -117,28 +168,11 @@ select {
 }
 
 
-.button-container {
-    margin-top: 20px;
-}
-
-.action-button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    background-color: #e77ee7;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.action-button:hover {
-    background-color: #bf68bf;
-}
-
 h2 {
     margin-top: 40px;
 }
+
+/* --------------이미지 로그 */
 
 #logContainer {
     max-width: 600px;
@@ -148,24 +182,43 @@ h2 {
 
 .log-date-group {
     margin-bottom: 20px;
+    text-align: left;
+    font-size: 16px;
+    color: #333;
 }
-
 .log-item {
-    display: flex;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 20px;
-    background: white;
-    border-radius: 4px;
+    margin: 20px 0;
 }
 
 .log-content {
     display: flex;
+    align-items: center;
+}
+
+.log-details {
+    text-align: left;
+}
+
+
+.log-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 12px 0;
+    background-color: white;
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+}
+
+.log-content {
+    display: flex;
+    align-items: center;
 }
 
 .log-item img {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
+    /* border-radius: 8px; */
     margin-right: 20px;
 }
 
@@ -175,17 +228,22 @@ h2 {
 
 .log-details p {
     margin: 5px 0;
+    color: #3D3D51;
+    font-size: 14px;
 }
 
+/*---------- 캘린더 */
 #calendar {
     max-width: 600px;
     margin: 20px auto;
     padding: 10px;
     background: white;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
+/* 캘린더 헤더 스타일 */
 .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -195,49 +253,203 @@ h2 {
 
 .calendar-header h2 {
     margin: 0;
+    font-size: 20px;
 }
 
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 요일 헤더 스타일 */
+.calendar-grid div:nth-child(-n+7) {
+    font-weight: bold;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+/* 캘린더 그리드 스타일 */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
+    padding: 10px;
 }
 
+/* 캘린더 셀 스타일 */
 .calendar-cell {
-    height: 80px;
+    position: relative;
+    height: 100px; /* 높이를 늘려 이미지가 더 잘 보이게 */
     padding: 10px;
     background: #f9f9f9;
-    border-radius: 4px;
+    border-radius: 8px;
     text-align: center;
-}
-
-.calendar-cell img {
-    width: 100%;
-    height: auto;
-    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    justify-content: space-between; /* 공간 분배 */
 }
 
 .calendar-cell .date {
     font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
 }
 
-.event-image {
-    width: 100px;
-    height: auto;
-    margin-top: 5px;
-    border-radius: 5px;
-    /* 라운드값 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.calendar-cell .image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+    flex-grow: 1; /* 이미지 컨테이너가 남은 공간을 차지하도록 */
+    display: flex; /* 추가 */
+    justify-content: center; /* 추가 */
+    align-items: center; /* 추가 */
+}
+
+.calendar-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 컨테이너에 맞게 조정, 비율을 유지하며 잘릴 수 있음 */
+    border-radius: 6px;
     transition: transform 0.3s;
 }
 
-.event-image:hover {
-    transform: scale(1.1);
-    /* 호버시 확대 */
+.calendar-cell img:hover {
+    transform: scale(1.1); /* 호버 시 확대 효과 */
 }
 
-table,
-th,
-td {
-    border: 1px solid black;
+/* 모바일 스타일링 */
+@media (max-width: 600px) {
+    .calendar-cell {
+        height: 80px; /* 모바일에서 높이를 줄임 */
+        padding: 5px;
+    }
+
+    .calendar-cell .image-container {
+        width: 100%; /* 컨테이너 너비를 조정 */
+        height: 80%; /* 컨테이너 높이를 조정 */
+        border-radius: 6px; /* 둥근 모서리를 줄임 */
+    }
+
+    .calendar-cell img {
+        border-radius: 6px; /* 이미지를 네모나게 */
+    }
+}
+
+.navigate-buttons {
+    display: flex;
+    justify-content: center; /* 모든 버튼들을 중앙에 정렬 */
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative; /* 상대적 위치 설정 */
+}
+
+.navigate-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 12px;
+    margin: 0 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navigate-button:hover {
+    background-color: #007BFF; /* 호버 시 배경 색상 변경 */
+    color: #fff; /* 호버 시 글자 색상 변경 */
+}
+
+.navigate-button.back {
+    font-size: 12px;
+    padding: 5px 10px;
+    position: absolute; /* 절대 위치 설정 */
+    left: 0; /* 왼쪽에 위치 */
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+}
+
+.toggle-prompt-button {
+    background-color: #F2F2F5;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #9A9AAF;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-prompt-button:hover {
+    background-color: #E5E5E5;
+    color: #333;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 25px; 
+    padding: 10px 20px; /* 텍스트에 맞게 패딩 조정 */
+    font-size: 16px; 
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #313131;
+}
+
+.modal {
+    display: none; /* 숨겨진 상태로 시작 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

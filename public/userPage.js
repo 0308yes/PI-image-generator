@@ -116,43 +116,55 @@ function displayError(error) {
 }
 
 
-
 function fetchLogs() {
-
     const token = localStorage.getItem('token');
 
     fetch(`/allLogs?id=${ID}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Fetched data:', data);  // 응답 데이터 로그 확인
 
-        })
-        .then(response => response.json())
-        .then(logs => {
-            console.log(logs);
-            displayTodayLogs(logs);
+        // data가 배열이 아닌 경우 배열로 변환
+        const logs = Array.isArray(data) ? data : Object.values(data);
 
-            renderCalendar(new Date().getMonth(), new Date().getFullYear(), logs);
-            const historyButton = document.getElementById("btn1");
-            const todayButton = document.getElementById("btn2");
-            historyButton.addEventListener('click', () => {
-                displayAllLogs(logs);
-                toggleButton(historyButton);
-            });
-            todayButton.addEventListener('click', () => {
-                displayTodayLogs(logs);
-                toggleButton(todayButton);
-            });
-
-            // 초기 활성화된 버튼 설정 (Today)
-            toggleButton(todayButton);
-        })
-        .catch(error => {
-            console.error('Error fetching logs:', error);
+        logs.forEach(log => {
+            if (typeof log === 'object' && log !== null) {
+                // log.data_types를 JSON 형식으로 파싱
+                log.data_types = typeof log.data_types === 'string' ? JSON.parse(log.data_types) : log.data_types;
+            }
         });
+
+        const validLogs = logs.filter(log => typeof log === 'object' && log !== null);
+
+        displayTodayLogs(validLogs);
+        renderCalendar(new Date().getMonth(), new Date().getFullYear(), validLogs);
+
+        const historyButton = document.getElementById("btn1");
+        const todayButton = document.getElementById("btn2");
+        historyButton.addEventListener('click', () => {
+            displayAllLogs(validLogs);
+            toggleButton(historyButton);
+        });
+        todayButton.addEventListener('click', () => {
+            displayTodayLogs(validLogs);
+            toggleButton(todayButton);
+        });
+
+        // 초기 활성화된 버튼 설정 (Today)
+        toggleButton(todayButton);
+    })
+    .catch(error => {
+        console.error('Error fetching logs:', error);
+    });
 }
+
+
 
 //-------------- 로그 정렬
 function groupLogsByDate(logs) {
@@ -174,6 +186,7 @@ function groupLogsByDate(logs) {
 }
 
 //-------------- 로그 출력
+//-------------- 로그 출력
 function renderLogs(date, logs, showNavigation = false) {
     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
@@ -193,39 +206,43 @@ function renderLogs(date, logs, showNavigation = false) {
             <h3>${date}</h3>
             ${navigationButtons}
             ${logs.map(log => `
-                <div class="log-item">
-                    <div class="log-content">
-                        <img src="${log.imageFilepath}" alt="Log Image">
-                        <div class="log-details">
-                            ${log.isWeekly ? `
-                                <p><strong>Weekly Image</strong></p>
-                            ` : `
-                                <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
-                                <p><strong>Move:</strong> ${log.move}</p>
-                                <p><strong>Exercise:</strong> ${log.exercise}</p>
-                                <p><strong>Stand:</strong> ${log.stand}</p>
-                                <p><strong>Steps:</strong> ${log.steps}</p>
-                                <p><strong>Distance:</strong> ${log.distance} km</p>
-                            `}
-                            <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-                            <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.prompt}</p>
-                            ${log.memo ? `
-                                <p><strong>Memo:</strong> ${log.memo}</p>
-                                <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
-                            ` : `
-                                <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
-                            `}
-                            <div id="memoInputContainer-${log.timestamp}" style="display: none;">
-                                <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
-                                <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+                ${log && typeof log === 'object' ? `
+                    <div class="log-item">
+                        <div class="log-content">
+                            <img src="${log.imageFilepath}" alt="Log Image">
+                            <div class="log-details">
+                                ${log.isWeekly ? `
+                                    <p><strong>Weekly Image</strong></p>
+                                ` : `
+                                    <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
+                                    <p><strong>Move:</strong> ${log.data_types ? log.data_types.move : 'N/A'}</p>
+                                    <p><strong>Exercise:</strong> ${log.data_types ? log.data_types.exercise : 'N/A'}</p>
+                                    <p><strong>Stand:</strong> ${log.data_types ? log.data_types.stand : 'N/A'}</p>
+                                    <p><strong>Steps:</strong> ${log.data_types ? log.data_types.steps : 'N/A'}</p>
+                                    <p><strong>Distance:</strong> ${log.data_types ? log.data_types.distance : 'N/A'} km</p>
+                                `}
+                                <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
+                                <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.prompt}</p>
+                                ${log.memo ? `
+                                    <p><strong>Memo:</strong> ${log.memo}</p>
+                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
+                                ` : `
+                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
+                                `}
+                                <div id="memoInputContainer-${log.timestamp}" style="display: none;">
+                                    <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
+                                    <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ` : ''}
             `).join('')}
         </div>
     `;
 }
+
+
 
 // 프롬프트 보여주기
 function togglePrompt(button) {
@@ -283,11 +300,13 @@ function displayTodayLogs(logs) {
     const logContainer = document.getElementById('logContainer');
     const today = new Date().toLocaleDateString();
     const todayLogs = logs
-        .filter(log => new Date(log.timestamp).toLocaleDateString() === today)
+        .filter(log => log && typeof log === 'object' && new Date(log.timestamp).toLocaleDateString() === today)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // 최신순으로 정렬
 
     logContainer.innerHTML = todayLogs.length > 0 ? renderLogs(today, todayLogs) : `<p>No logs for today.</p>`;
 }
+
+
 
 // 전체 히스토리
 function displayAllLogs(logs) {

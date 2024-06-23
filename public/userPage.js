@@ -216,13 +216,10 @@ function renderLogs(date, logs, showNavigation = false) {
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
                                 ` : `
-                                   <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
-                                    <p><strong>Move (KCAL):</strong> ${log.data_types && log.data_types['move(KCAL)'] !== undefined ? log.data_types['move(KCAL)'] : 'N/A'}</p>
-                                    <p><strong>Exercise (minutes):</strong> ${log.data_types && log.data_types['exercise(minutes)'] !== undefined ? log.data_types['exercise(minutes)'] : 'N/A'}</p>
-                                    <p><strong>Stand (times):</strong> ${log.data_types && log.data_types['stand(times)'] !== undefined ? log.data_types['stand(times)'] : 'N/A'}</p>
-                                    <p><strong>Steps:</strong> ${log.data_types && log.data_types.steps !== undefined ? log.data_types.steps : 'N/A'}</p>
-                                    <p><strong>Distance (KM):</strong> ${log.data_types && log.data_types['distance(KM)'] !== undefined ? log.data_types['distance(KM)'] : 'N/A'} km</p>
-
+                                    <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
+                                    ${Object.keys(log.data_types).map(key => `
+                                        <p><strong>${key}:</strong> ${log.data_types[key] !== undefined ? log.data_types[key] : 'N/A'}</p>
+                                    `).join('')}
                                 `}
                                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
                                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.prompt}</p>
@@ -244,6 +241,7 @@ function renderLogs(date, logs, showNavigation = false) {
         </div>
     `;
 }
+
 
 
 

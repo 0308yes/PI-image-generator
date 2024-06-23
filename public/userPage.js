@@ -120,48 +120,49 @@ function fetchLogs() {
     const token = localStorage.getItem('token');
 
     fetch(`/allLogs?id=${ID}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Fetched data:', data);  // 응답 데이터 로그 확인
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // 응답 데이터 로그 확인
 
-        // data가 배열이 아닌 경우 배열로 변환
-        const logs = Array.isArray(data) ? data : Object.values(data);
+            // data가 배열이 아닌 경우 배열로 변환
+            const logs = Array.isArray(data) ? data : Object.values(data);
 
-        logs.forEach(log => {
-            if (typeof log === 'object' && log !== null) {
-                // log.data_types를 JSON 형식으로 파싱
-                log.data_types = typeof log.data_types === 'string' ? JSON.parse(log.data_types) : log.data_types;
-            }
-        });
+            logs.forEach(log => {
+                if (typeof log === 'object' && log !== null) {
+                    // log.data_types를 JSON 형식으로 파싱
+                    log.data_types = typeof log.data_types === 'string' ? JSON.parse(log.data_types) : log.data_types;
+                }
+            });
 
-        const validLogs = logs.filter(log => typeof log === 'object' && log !== null);
+            const validLogs = logs.filter(log => typeof log === 'object' && log !== null);
 
-        displayTodayLogs(validLogs);
-        renderCalendar(new Date().getMonth(), new Date().getFullYear(), validLogs);
 
-        const historyButton = document.getElementById("btn1");
-        const todayButton = document.getElementById("btn2");
-        historyButton.addEventListener('click', () => {
-            displayAllLogs(validLogs);
-            toggleButton(historyButton);
-        });
-        todayButton.addEventListener('click', () => {
             displayTodayLogs(validLogs);
-            toggleButton(todayButton);
-        });
+            renderCalendar(new Date().getMonth(), new Date().getFullYear(), validLogs);
 
-        // 초기 활성화된 버튼 설정 (Today)
-        toggleButton(todayButton);
-    })
-    .catch(error => {
-        console.error('Error fetching logs:', error);
-    });
+            const historyButton = document.getElementById("btn1");
+            const todayButton = document.getElementById("btn2");
+            historyButton.addEventListener('click', () => {
+                displayAllLogs(validLogs);
+                toggleButton(historyButton);
+            });
+            todayButton.addEventListener('click', () => {
+                displayTodayLogs(validLogs);
+                toggleButton(todayButton);
+            });
+
+            // 초기 활성화된 버튼 설정 (Today)
+            toggleButton(todayButton);
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
 }
 
 
@@ -297,12 +298,14 @@ function saveMemo(timestamp) {
 //-------------- 로그 보여주기
 // 오늘 로그
 function displayTodayLogs(logs) {
+
     const logContainer = document.getElementById('logContainer');
     const today = new Date().toLocaleDateString();
-    const todayLogs = logs
+
+    const todayLogs = logs[0]
         .filter(log => log && typeof log === 'object' && new Date(log.timestamp).toLocaleDateString() === today)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // 최신순으로 정렬
-
+    console.log(logs[0])
     logContainer.innerHTML = todayLogs.length > 0 ? renderLogs(today, todayLogs) : `<p>No logs for today.</p>`;
 }
 

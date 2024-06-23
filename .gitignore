@@ -3,3 +3,5 @@
 .env.local
 .env.production
 .env.development
+/node_modules
+node_modules/node_modules/

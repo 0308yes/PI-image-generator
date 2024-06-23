@@ -37,7 +37,7 @@ if (!token) {
 document.getElementById('logTab').addEventListener('click', () => showTab('log'));
 document.getElementById('calendarTab').addEventListener('click', () => showTab('calendar'));
 
-// showTab('log'); // 초기 탭을 Image Log 탭으로 설정
+showTab('log'); // 초기 탭을 Image Log 탭으로 설정
 fetchLogs();
 
 
@@ -222,7 +222,7 @@ function renderLogs(date, logs, showNavigation = false) {
                                     `).join('')}
                                 `}
                                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-                                <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.prompt}</p>
+                                <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.imagePrompt}</p>
                                 ${log.memo ? `
                                     <p><strong>Memo:</strong> ${log.memo}</p>
                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
@@ -241,9 +241,6 @@ function renderLogs(date, logs, showNavigation = false) {
         </div>
     `;
 }
-
-
-
 
 
 // 프롬프트 보여주기

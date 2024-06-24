@@ -365,7 +365,7 @@ h2 {
 }
 
 .navigate-button:hover {
-    background-color: #007BFF; /* 호버 시 배경 색상 변경 */
+    background-color: #4c4c4c; /* 호버 시 배경 색상 변경 */
     color: #fff; /* 호버 시 글자 색상 변경 */
 }
 

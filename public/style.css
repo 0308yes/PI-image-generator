@@ -67,9 +67,9 @@ form {
 .weekly-button {
     padding: 10px 20px;
     margin: 0 10px;
-    margin-top: 10px;
-    background-color: #85e7df;
-    color: white;
+    margin-top: 20px;
+    background-color: #EBEBF2;
+    color: #888899;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -451,6 +451,77 @@ h2 {
     float: right;
     font-size: 28px;
     font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*메모 인풋 필드*/
+/* .memo-input-container {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+} */
+
+.memo-input-content {
+    background-color: #fefefe;
+    margin-top: 10px;
+    /* padding: 20px;
+    border: 1px solid #888; */
+    width: 80%;
+    max-width: 400px;
+    /* border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    position: relative;
+}
+
+.memo-input-content textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.memo-input-content button {
+    padding: 5px 10px;
+    margin-top: 5px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.memo-input-content button:hover {
+    background-color: #3c3c3c;
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }
 
 .close-button:hover,

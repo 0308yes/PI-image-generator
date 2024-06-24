@@ -17,9 +17,9 @@ export class OpenAI {
         this.fetch = await import('node-fetch').then(mod => mod.default);
     }
 
-    defineMessage(data_types) {
+    defineMessage(data_types, data_category) {
         let data_type_keys = Object.keys(data_types);
-        let userMessageContent = "You will be provided with the personal data related to physical activity of a day, including ";
+        let userMessageContent = `You will be provided with the personal data related to ${data_category} of a day, including "`;
 
         data_type_keys.forEach((key, index) => {
             userMessageContent += `${key}:${data_types[key]}`;
@@ -31,17 +31,17 @@ export class OpenAI {
         });
 
         const message = [{
-                role: "system",
-                content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's physical activity data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
-            },
-            {
-                role: "user",
-                content: userMessageContent
-            },
-            {
-                role: "system",
-                content: this.promptGenerationRule
-            }
+            role: "system",
+            content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
+        },
+        {
+            role: "user",
+            content: userMessageContent
+        },
+        {
+            role: "system",
+            content: this.promptGenerationRule
+        }
         ];
         return message
     }
@@ -65,17 +65,17 @@ export class OpenAI {
         }).join('\n');
 
         const message = [{
-                role: "system",
-                content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's weekly physical activity data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this weekly data. The output should only be the image prompt.`
-            },
-            {
-                role: "user",
-                content: `Weekly data:\n${weeklyDataText}`
-            },
-            {
-                role: "system",
-                content: this.promptGenerationRule
-            }
+            role: "system",
+            content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's weekly ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this weekly data. The output should only be the image prompt.`
+        },
+        {
+            role: "user",
+            content: `Weekly ${data_category} data:\n${weeklyDataText}`
+        },
+        {
+            role: "system",
+            content: this.promptGenerationRule
+        }
         ];
         return message
 

@@ -1,5 +1,16 @@
-const properties = ['auth_type', 'ID', 'password', 'data_types']
+
 const table = document.getElementById("table");
+let properties = [];
+(() => {
+    const firstRow = table.getElementsByTagName('tr')[0];
+    const cells = firstRow.getElementsByTagName('td');
+    for (let i = 0; i < cells.length; i++) {
+        properties.push(cells[i].textContent);
+    }
+})()
+console.log(properties)
+
+
 const addRowButton = document.getElementById('addRowButton');
 const saveButton = document.getElementById('saveButton');
 let dbData = null;

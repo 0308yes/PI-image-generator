@@ -10,6 +10,7 @@ import {
     dirname
 } from 'path';
 import fs from 'fs';
+import { log } from 'console';
 
 export default {
 
@@ -18,6 +19,9 @@ export default {
         const { ID } = req.user
         try {
             const result = await UserDataModel.getAllLogsById(ID);
+
+
+
             if (result.length == 0) {
                 return res.status(400).json({
                     success: false
@@ -67,12 +71,13 @@ export default {
     },
 
     onGenerateImage: async (req, res) => {
-        const { ID } = req.user
+        const { ID, data_category } = req.user
         const { data_types } = req.body;
         const openAI = new OpenAI()
 
         try {
-            const message = openAI.defineMessage(data_types)
+            const message = openAI.defineMessage(data_types, data_category)
+            console.log('m', message)
             const isWeekly = false
 
             const object = await generatePromptAndImage(openAI, message, ID, data_types, isWeekly)
@@ -88,11 +93,7 @@ export default {
     },
 
     onGenerateWeeklyImage: async (req, res) => {
-        const { ID } = req.user
-
-        const __filename = fileURLToPath(
-            import.meta.url);
-        const __dirname = dirname(__filename);
+        const { ID, data_category } = req.user
 
         const {
             startDate,
@@ -101,40 +102,37 @@ export default {
         const openAI = new OpenAI()
 
         try {
-            // JSON 파일에서 주간 데이터 가져오기
-            const logFilepath = path.join(__dirname, 'public', 'generation_logs.json');
-            if (!fs.existsSync(logFilepath)) {
-                throw new Error("Log file not found.");
+            const result = await UserDataModel.getAllLogsById(ID);
+            if (result.length == 0) {
+                return res.status(400).json({
+                    success: false
+                });
+            } else {
+                const endDateInclusive = new Date(endDate);
+                endDateInclusive.setDate(endDateInclusive.getDate() + 1);
+
+                const data_types = result.filter(log => {
+                    const logDate = new Date(log.timestamp);
+                    return logDate >= new Date(startDate) && logDate < endDateInclusive;
+                });
+                if (data_types.length === 0) {
+                    throw new Error("No data found for the specified date range.");
+                }
+                const message = openAI.defineWeeklyMessage(data_types, data_category)
+                const isWeekly = true
+
+                const object = await generatePromptAndImage(openAI, message, ID, data_types, isWeekly)
+                return res.json(object)
             }
-            const logs = JSON.parse(fs.readFileSync(logFilepath));
-            // 종료 날짜에 하루 더해서 전체 범위 포함하도록 변경함
-            const endDateInclusive = new Date(endDate);
-            endDateInclusive.setDate(endDateInclusive.getDate() + 1);
-
-            const data_types = logs.filter(log => {
-                const logDate = new Date(log.timestamp);
-                return logDate >= new Date(startDate) && logDate < endDateInclusive;
-            });
-
-            if (data_types.length === 0) {
-                throw new Error("No data found for the specified date range.");
-            }
-
-            const message = openAI.defineWeeklyMessage(data_types)
-            const isWeekly = true
-
-            const object = await generatePromptAndImage(openAI, message, ID, data_types, isWeekly)
-            return res.json(object)
-        }
-        catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({
+        } catch (error) {
+            return res.status(500).json({
                 success: false,
-                error: error.message
-            });
+                error: error
+            })
         }
     }
 }
+
 
 async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
     const __filename = fileURLToPath(

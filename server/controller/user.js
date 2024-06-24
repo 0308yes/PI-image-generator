@@ -4,11 +4,12 @@ import jwt from 'jsonwebtoken';
 
 export default {
     onCreateUser: async (req, res) => {
-        const { ID, password, data_types, auth_type } = req.body;
+        const { ID, password, data_types, data_category, auth_type, } = req.body;
+
         try {
             const user = await UserModel.getUserById(ID);
             if (!user) {
-                const user = await UserModel.createUser(ID, password, data_types, auth_type);
+                const user = await UserModel.createUser(ID, password, data_types, data_category, auth_type);
                 return res.status(200).json({ success: true, user });
             }
             else {

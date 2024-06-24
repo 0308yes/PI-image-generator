@@ -3,7 +3,7 @@ export class UserMeta {
 
     }
 
-    async createUser(auth_type, ID, password, data_types) {
+    async createUser(auth_type, ID, password, data_types, data_category) {
         const token = localStorage.getItem('token');
         const response = await fetch('/createUser', {
             method: 'POST',
@@ -15,9 +15,12 @@ export class UserMeta {
                 ID: ID,
                 password: password,
                 data_types: data_types,
-                auth_type: auth_type
+                data_category: data_category,
+                auth_type: auth_type,
+
             })
         });
+        console.log(response)
         return response
     }
 

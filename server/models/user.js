@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 
     data_types: String,
+    data_category: String,
     auth_type: {
         type: String,
         enum: [USER_AUTH_TYPES.ADMINISTRATOR, USER_AUTH_TYPES.PARTIPANT],
@@ -48,6 +49,7 @@ userSchema.statics.createUser = async function (
     ID,
     password,
     data_types,
+    data_category,
     auth_type
 ) {
 
@@ -56,9 +58,10 @@ userSchema.statics.createUser = async function (
             ID,
             password,
             data_types,
+            data_category,
             auth_type
         });
-
+        console.log(user)
         return user;
     } catch (error) {
         throw error;

@@ -10,7 +10,7 @@ const router = express.Router();
 router
     .get('/getAllUsers', auth, adminAuth, user.onGetAllUsers)
     .get('/getUserById', auth, user.onGetUserById)
-    .post('/createUser', auth, adminAuth, user.onCreateUser)
+    .post('/createUser', user.onCreateUser)
     .post('/loginUser', user.onLoginUser)
     .delete('/deleteUser', auth, adminAuth, user.onDeleteUserById)
     .delete('/deleteAllUsers', auth, adminAuth, user.onDeleteAllUsers)

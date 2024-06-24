@@ -33,9 +33,9 @@ export class UserMeta {
         return response.json()
     }
 
-    async getUserById(id) {
+    async getUserById() {
         const token = localStorage.getItem('token');
-        const response = await fetch(`/getUserById?id=${id}`, {
+        const response = await fetch(`/getUserById`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

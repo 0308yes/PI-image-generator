@@ -2,10 +2,9 @@ import {
     UserMeta
 } from "./communication/userMeta.js";
 const userMeta = new UserMeta()
-const ID = localStorage.getItem('ID');
 const form = document.getElementById('dataForm');
 
-const response = await userMeta.getUserById(ID)
+const response = await userMeta.getUserById()
 const result = response.user.data_types.split(',').map(item => item.trim());
 
 //dynamically create the forms 
@@ -57,18 +56,16 @@ document.getElementById('dataForm').addEventListener('submit', async (event) => 
     showLoadingSpinner();
 
     //-------------- API 호출
-    const token = localStorage.getItem('token');
     fetch('/generate-image', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                ID: ID,
-                data_types: values
-            }),
-        })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            data_types: values
+        }),
+    })
         .then(response => response.json())
         .then(data => {
             hideLoadingSpinner();
@@ -131,41 +128,39 @@ function processLogs(data) {
 
 //-------------- 로그 데이터 처리 통합
 function fetchLogs() {
-    const token = localStorage.getItem('token');
-
-    fetch(`/allLogs?id=${ID}`, {
+    fetch('/allLogs', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Fetched data:', data); // 응답 데이터 로그 확인
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // 응답 데이터 로그 확인
 
-        const validLogs = processLogs(data);
+            const validLogs = processLogs(data);
 
-        displayTodayLogs(validLogs);
-        renderCalendar(new Date().getMonth(), new Date().getFullYear(), validLogs);
-
-        const historyButton = document.getElementById("btn1");
-        const todayButton = document.getElementById("btn2");
-        historyButton.addEventListener('click', () => {
-            displayAllLogs(validLogs);
-            toggleButton(historyButton);
-        });
-        todayButton.addEventListener('click', () => {
             displayTodayLogs(validLogs);
-            toggleButton(todayButton);
-        });
+            renderCalendar(new Date().getMonth(), new Date().getFullYear(), validLogs);
 
-        // 초기 활성화된 버튼 설정 (Today)
-        toggleButton(todayButton);
-    })
-    .catch(error => {
-        console.error('Error fetching logs:', error);
-    });
+            const historyButton = document.getElementById("btn1");
+            const todayButton = document.getElementById("btn2");
+            historyButton.addEventListener('click', () => {
+                displayAllLogs(validLogs);
+                toggleButton(historyButton);
+            });
+            todayButton.addEventListener('click', () => {
+                displayTodayLogs(validLogs);
+                toggleButton(todayButton);
+            });
+
+            // 초기 활성화된 버튼 설정 (Today)
+            toggleButton(todayButton);
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
 }
 
 //-------------- 로그 정렬
@@ -242,7 +237,7 @@ function renderLogs(date, logs, showNavigation = false) {
 }
 
 //-------------- 프롬프트 보여주기
-window.togglePrompt = function(button) {
+window.togglePrompt = function (button) {
     const promptElement = button.nextElementSibling;
     if (promptElement.style.display === 'none' || promptElement.style.display === '') {
         promptElement.style.display = 'block';
@@ -255,7 +250,7 @@ window.togglePrompt = function(button) {
 
 //-------------- 메모
 // 메모 입력란 표시 함수
-window.showMemoInput = function(timestamp, memo = '') {
+window.showMemoInput = function (timestamp, memo = '') {
     const memoInputContainer = document.getElementById(`memoInputContainer-${timestamp}`);
     const memoInput = document.getElementById(`memoInput-${timestamp}`);
     memoInput.value = memo;
@@ -263,21 +258,20 @@ window.showMemoInput = function(timestamp, memo = '') {
 }
 
 // 메모 저장 함수
-window.saveMemo = function(timestamp) {
+window.saveMemo = function (timestamp) {
     const memo = document.getElementById(`memoInput-${timestamp}`).value;
 
-    const token = localStorage.getItem('token');
     fetch('/save-memo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                timestamp,
-                memo
-            }),
-        })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            timestamp,
+            memo
+        }),
+    })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -348,7 +342,7 @@ document.getElementById('calendarTab').addEventListener('click', () => {
 });
 
 // 뒤로가기 버튼
-window.backToCalendar = function() {
+window.backToCalendar = function () {
     const logDetailContainer = document.getElementById('logDetailContainer');
     const calendarContainer = document.getElementById('calendar');
     const logContainer = document.getElementById('logContainer');
@@ -403,45 +397,43 @@ function generateCalendarCells(month, year, groupedLogs) {
 }
 
 // 캘린더 내 이미지 클릭시 해당 날짜 로그로 이동
-window.handleImageClick = function(event) {
+window.handleImageClick = function (event) {
     event.stopPropagation(); // 이벤트 버블링을 막기 위해 사용
     const date = event.target.closest('.calendar-cell').getAttribute('data-date');
     console.log('image clicked', date);
 
-    const token = localStorage.getItem('token');
-    fetch(`/allLogs?id=${ID}`, {
+    fetch('/allLogs', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Fetched data:', data); // 응답 데이터 로그 확인
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // 응답 데이터 로그 확인
 
-        const validLogs = processLogs(data);
+            const validLogs = processLogs(data);
 
-        displayLogsByDate(date, validLogs);
-    })
-    .catch(error => {
-        console.error('Error fetching logs:', error);
-    });
+            displayLogsByDate(date, validLogs);
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
 }
 
-window.navigateMonth = function(month, year) {
+window.navigateMonth = function (month, year) {
     const newDate = new Date(year, month, 1);
     const newMonth = newDate.getMonth();
     const newYear = newDate.getFullYear();
 
-    const token = localStorage.getItem('token');
-    fetch(`/allLogs?id=${ID}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
+    fetch('/allLogs', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
         .then(response => response.json())
         .then(data => {
             const validLogs = processLogs(data);
@@ -453,26 +445,25 @@ window.navigateMonth = function(month, year) {
 }
 
 // 캘린더에서 날짜 이동 
-window.navigateToDate = function(date) {
-    const token = localStorage.getItem('token');
-    fetch(`/allLogs?id=${ID}`, {
+window.navigateToDate = function (date) {
+    fetch('/allLogs', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Fetched data:', data); // 응답 데이터 로그 확인
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data); // 응답 데이터 로그 확인
 
-        const validLogs = processLogs(data);
+            const validLogs = processLogs(data);
 
-        displayLogsByDate(date, validLogs);
-    })
-    .catch(error => {
-        console.error('Error fetching logs:', error);
-    });
+            displayLogsByDate(date, validLogs);
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
 }
 
 //-------------- 탭 변경
@@ -504,16 +495,16 @@ function showTab(tabName) {
 }
 
 //--------- 모달로 폼 열기
-window.showForm = function() {
+window.showForm = function () {
     document.getElementById('formModal').style.display = 'flex';
 }
 
-window.hideForm = function() {
+window.hideForm = function () {
     document.getElementById('formModal').style.display = 'none';
 }
 
 // 모달 외부를 클릭하면 닫히도록
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modal = document.getElementById('formModal');
     if (event.target == modal) {
         modal.style.display = 'none';

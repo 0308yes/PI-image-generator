@@ -16,7 +16,6 @@ document.getElementById('dataForm').addEventListener('submit', function (event) 
             if (data.success) {
                 // Assuming the server sends the appropriate file, redirect to the URL
                 window.location.href = data.redirectUrl;
-                localStorage.setItem('ID', document.getElementById('ID').value,);
                 localStorage.setItem('token', data.token);
             }
             else {

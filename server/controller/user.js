@@ -20,9 +20,9 @@ export default {
     },
 
     onGetUserById: async (req, res) => {
-        const userId = req.query.id
+        const { ID } = req.user
         try {
-            const user = await UserModel.getUserById(userId);
+            const user = await UserModel.getUserById(ID);
             return res.status(200).json({ success: true, user });
         } catch (error) {
             return res.status(500).json({ success: false, error: error })
@@ -83,7 +83,6 @@ export default {
 
     onDeleteUserById: async (req, res) => {
         try {
-
             const { ID, } = req.body;
             const user = await UserModel.deleteUserById(ID);
             if (!user) {
@@ -100,14 +99,13 @@ export default {
     },
 
     onDeleteAllUsers: async (req, res) => {
-
         try {
             const users = await UserModel.deleteAllUsers()
             if (users.length == 0 || !users) {
-                console.log('hi')
+
                 return res.status(200).json({ success: true, users });
             }
-            console.log('hi')
+
             return res.status(400).json({
                 success: false,
             });

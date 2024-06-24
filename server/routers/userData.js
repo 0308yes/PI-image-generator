@@ -6,7 +6,7 @@ import userData from '../controller/userData.js';
 const router = express.Router();
 
 router
-    .get('/allLogs', auth, userData.onGetAllLogsById)
+    .get('/allLogs', auth, userData.onGetAllLogs)
     // .get('/log', userData.onCreateLogById)
     .post('/generate-image', auth, userData.onGenerateImage)
     // /.post('/generate-weekly-image', auth, userData.onGenerateWeeklyImage)

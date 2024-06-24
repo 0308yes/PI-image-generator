@@ -61,7 +61,7 @@ userDataSchema.statics.createLogById = async function (
     }
 }
 
-userDataSchema.statics.createMemo = async function (
+userDataSchema.statics.saveMemo = async function (
     timestamp,
     memo
 ) {
@@ -73,6 +73,7 @@ userDataSchema.statics.createMemo = async function (
                 'memo': memo
             }
         });
+        console.log(result)
         return result
     } catch (error) {
         throw error;

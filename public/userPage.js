@@ -15,12 +15,14 @@ for (const item of result) {
     const label = document.createElement('label');
     label.htmlFor = item
     label.textContent = item
+    label.className = 'form-label';
 
     const input = document.createElement('input');
     //input.type = 'number';
     input.id = item
     input.name = item
     input.required = true;
+    input.className = 'form-input';
 
     formGroup.appendChild(label);
     formGroup.appendChild(input);
@@ -261,13 +263,15 @@ window.showMemoInput = function(timestamp, memo = '') {
 }
 
 // 메모 저장 함수
-function saveMemo(timestamp) {
+window.saveMemo = function(timestamp) {
     const memo = document.getElementById(`memoInput-${timestamp}`).value;
 
+    const token = localStorage.getItem('token');
     fetch('/save-memo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 timestamp,
@@ -496,5 +500,22 @@ function showTab(tabName) {
         logDetailContainer.innerHTML = ''; // 로그 상세보기 컨테이너 초기화
         calendarContent.style.display = 'none';
         buttonContainer.style.display = 'block';
+    }
+}
+
+//--------- 모달로 폼 열기
+window.showForm = function() {
+    document.getElementById('formModal').style.display = 'flex';
+}
+
+window.hideForm = function() {
+    document.getElementById('formModal').style.display = 'none';
+}
+
+// 모달 외부를 클릭하면 닫히도록
+window.onclick = function(event) {
+    const modal = document.getElementById('formModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
     }
 }

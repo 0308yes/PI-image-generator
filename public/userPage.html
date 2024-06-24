@@ -5,25 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Self-Tracking Image Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+ 
     <link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
 </head>
 
 <body>
     <h1>Self-Tracking Image Generator</h1>
-    <form id="dataForm">
-        <button type="submit" id="submit-button" class="submit-button">Generate Image</button>
-    </form>
-
-    <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
-
-    <h2>Generated Image</h2>
-    <div id="imageContainer"></div>
 
     <div class="tab-container">
         <button id="logTab" class="tab-button active">Image Log</button>
         <button id="calendarTab" class="tab-button">Calendar</button>
     </div>
-    
 
     <div id="calendar" class="tab-content" style="display:none;"></div>
 
@@ -35,9 +31,25 @@
     <div id="logContainer" class="tab-content"></div>
     <div id="logDetailContainer" class="tab-content" style="display:none;"></div>
 
+    <!-- 플로팅 버튼 -->
+    <div class="floating-button" onclick="showForm()">+ Record Data</div>
+
+    <!-- 폼 포함 모달 -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideForm()">&times;</span>
+            <form id="dataForm">
+                <button type="submit" id="submit-button" class="submit-button">Generate Image</button>
+            </form>
+
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
+
+            <h2>Generated Image</h2>
+            <div id="imageContainer"></div>
+        </div>
+    </div>
+
     <script type="module" src="userPage.js"></script> <!-- 캐시 무효화-->
-
-
 </body>
 
 

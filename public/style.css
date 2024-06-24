@@ -17,7 +17,7 @@ h1 {
     margin-bottom: 20px;
     font-size: 20px;
 }
-
+/* 폼 스타일 */
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -27,18 +27,21 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* 폼 그룹 스타일 */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
 }
 
-label {
+/* 라벨 스타일 */
+.form-label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input[type="number"], input[type="text"], input[type="datetime-local"], select {
+/* 인풋 스타일 */
+.form-input {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -49,7 +52,7 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 .submit-button {
     padding: 10px 20px;
     margin: 0 10px;
-    background-color: #85e78f;
+    background-color: #000000;
     color: white;
     border: none;
     border-radius: 4px;
@@ -58,7 +61,7 @@ input[type="number"], input[type="text"], input[type="datetime-local"], select {
 }
 
 .submit-button:hover {
-    background-color: #72c87b;
+    background-color: #3c3c3c;
 }
 
 .weekly-button {
@@ -431,13 +434,15 @@ h2 {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 600px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 80vh; /* 최대 높이 설정 */
+    overflow: auto; /* 내부 스크롤 활성화 */
 }
 
 .close-button {

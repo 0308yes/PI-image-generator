@@ -39,7 +39,7 @@ if (!token) {
 document.getElementById('logTab').addEventListener('click', () => showTab('log'));
 document.getElementById('calendarTab').addEventListener('click', () => showTab('calendar'));
 
-showTab('log'); // 초기 탭을 Image Log 탭으로 설정
+showTab('calendar'); // 초기 탭을 Image Log 탭으로 설정
 fetchLogs();
 
 document.getElementById('dataForm').addEventListener('submit', async (event) => {

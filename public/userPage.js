@@ -229,8 +229,10 @@ function renderLogs(date, logs, showNavigation = false) {
                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
                                 `}
                                 <div id="memoInputContainer-${log.timestamp}" style="display: none;">
-                                    <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
-                                    <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+                                    <div class="memo-input-content">
+                                        <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
+                                        <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

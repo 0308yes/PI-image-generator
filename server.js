@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import fs from 'fs';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt'
@@ -21,8 +20,6 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 3001;
-
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 

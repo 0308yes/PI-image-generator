@@ -29,6 +29,7 @@ export class OpenAI {
                 userMessageContent += ".";
             }
         });
+        console.log(userMessageContent)
 
         const message = [{
             role: "system",
@@ -46,16 +47,16 @@ export class OpenAI {
         return message
     }
 
-    defineWeeklyMessage(weeklyData) {
+    defineWeeklyMessage(weeklyData, data_category) {
         //weeklyData = object [{},{}]
         const weeklyDataText = weeklyData.map(log => {
             let userMessageContent = ""
-            userMessageContent += new Date(log.data_types).toLocaleDateString() + ':';
+            userMessageContent += new Date(log.timestamp).toLocaleDateString() + ':';
             const data_type_keys = Object.keys(log.data_types);
 
             data_type_keys.forEach((key, index) => {
-                userMessageContent += `${key}:${data_types[key]}`;
-                if (index < data_type_keys.length - 1) {
+                userMessageContent += `${key}:${log.data_types[key]}`;
+                if (index < log.data_types.length - 1) {
                     userMessageContent += ", ";
                 } else {
                     userMessageContent += ".";
@@ -83,6 +84,7 @@ export class OpenAI {
     }
 
     async generatePrompt(message) {
+        console.log('mem', message)
         if (!this.fetch) {
             await this.init();
         }

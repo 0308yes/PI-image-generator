@@ -100,25 +100,28 @@ export default {
             endDate
         } = req.body;
         const openAI = new OpenAI()
-
         try {
             const result = await UserDataModel.getAllLogsById(ID);
             if (result.length == 0) {
                 return res.status(400).json({
                     success: false
                 });
+
             } else {
                 const endDateInclusive = new Date(endDate);
                 endDateInclusive.setDate(endDateInclusive.getDate() + 1);
 
+
                 const data_types = result.filter(log => {
                     const logDate = new Date(log.timestamp);
-                    return logDate >= new Date(startDate) && logDate < endDateInclusive;
-                });
+
+                    return logDate >= new Date(startDate) && logDate < endDateInclusive && !log.isWeekly;
+                })
                 if (data_types.length === 0) {
                     throw new Error("No data found for the specified date range.");
                 }
                 const message = openAI.defineWeeklyMessage(data_types, data_category)
+
                 const isWeekly = true
 
                 const object = await generatePromptAndImage(openAI, message, ID, data_types, isWeekly)

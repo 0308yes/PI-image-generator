@@ -152,7 +152,7 @@ async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly)
 
     await saveImageToFile(imageUrls[0], imageFilepath);
 
-    const imagePath = `images/${imageFilename}`
+    const imagePath = `/images/${imageFilename}`
     const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, imagePath, isWeekly);
 
     return {

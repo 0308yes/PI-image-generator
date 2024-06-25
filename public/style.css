@@ -16,6 +16,7 @@ h1 {
     padding: 20px 0;
     margin-bottom: 20px;
     font-size: 20px;
+    cursor: pointer;
 }
 /* 폼 스타일 */
 form {

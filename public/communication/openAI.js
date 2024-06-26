@@ -33,8 +33,8 @@ export class OpenAI {
 
         const message = [{
             role: "system",
-            content: 'You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the user’s ${data_category} data to inspire an image. Your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.',
-            // content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
+            //content: 'You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the user’s ${data_category} data to inspire an image. Your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.',
+            content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
         },
         {
             role: "user",

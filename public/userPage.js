@@ -523,42 +523,42 @@ window.onclick = function (event) {
 }
 
 // Weekly Image (예전코드) ------- 여기부터 수정하기
-document.getElementById('generateWeeklyImage').addEventListener('click', function() {
-    // 현재 날짜 가져오기
-    const today = new Date();
-    // n일 전 날짜 계산 (나중에 일주일 단위로 변경하기)
-    const startDate = new Date();
-    startDate.setDate(today.getDate() - 2);
+// document.getElementById('generateWeeklyImage').addEventListener('click', function() {
+//     // 현재 날짜 가져오기
+//     const today = new Date();
+//     // n일 전 날짜 계산 (나중에 일주일 단위로 변경하기)
+//     const startDate = new Date();
+//     startDate.setDate(today.getDate() - 2);
 
-    // yyyy-mm-dd 형식으로 변환
-    const formatDate = (date) => date.toISOString().split('T')[0];
+//     // yyyy-mm-dd 형식으로 변환
+//     const formatDate = (date) => date.toISOString().split('T')[0];
 
-    // 시작 날짜와 종료 날짜 설정
-    const formattedStartDate = formatDate(startDate);
-    const formattedEndDate = formatDate(today);
+//     // 시작 날짜와 종료 날짜 설정
+//     const formattedStartDate = formatDate(startDate);
+//     const formattedEndDate = formatDate(today);
 
-    fetch('/generate-weekly-image', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            startDate: formattedStartDate,
-            endDate: formattedEndDate
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.imageUrls) {
-            displayImages(data.imageUrls, data.prompt);
-            fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
-        } else {
-            displayError(data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        displayError(error);
-    });
-});
+//     fetch('/generate-weekly-image', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${token}`
+//         },
+//         body: JSON.stringify({
+//             startDate: formattedStartDate,
+//             endDate: formattedEndDate
+//         }),
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.imageUrls) {
+//             displayImages(data.imageUrls, data.prompt);
+//             fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
+//         } else {
+//             displayError(data.error);
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         displayError(error);
+//     });
+// });

@@ -38,28 +38,51 @@ userDataSchema.statics.getAllLogsById = async function (
     }
 }
 
+// userDataSchema.statics.createLogById = async function (
+//     ID,
+//     data_types,
+//     imagePrompt,
+//     imagePath,
+//     isWeekly,
+
+// ) {
+//     try {
+//         const data = await this.create({
+//             ID,
+//             data_types,
+//             imagePrompt,
+//             imagePath,
+//             timestamp: new Date().toISOString(),
+//             isWeekly: isWeekly
+//         })
+//         return data
+//     } catch (error) {
+//         throw error;
+//     }
+// }
+
 userDataSchema.statics.createLogById = async function (
     ID,
     data_types,
     imagePrompt,
-    imagePath,
-    isWeekly,
-
+    base64Image, // 인코딩된 이미지 저장
+    isWeekly
 ) {
     try {
         const data = await this.create({
             ID,
             data_types,
             imagePrompt,
-            imagePath,
+            imagePath: base64Image, // base64로 인코딩된 이미지 저장
             timestamp: new Date().toISOString(),
             isWeekly: isWeekly
-        })
-        return data
+        });
+        return data;
     } catch (error) {
         throw error;
     }
 }
+
 
 userDataSchema.statics.saveMemo = async function (
     timestamp,

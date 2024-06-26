@@ -7,7 +7,7 @@ export class OpenAI {
             2. Do not include any numbers, letters, or text in the drawing.
             3. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
             4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Do not draw objects that directly depict “physical activity” and “personal data”. Do not draw a road, trail, or path.
-            5. Upon regeneration, ensure the new image is based on different subjects or keywords from the previous one.
+            5. Upon regeneration, ensure the new image is based on different subjects or keywords.
             6. The subject, mood, texture, and style of the image should vary with each generation to maintain diversity and creativity.
             7. Draw in one of the following styles: painting, photo, sketch, cartoon, impressionist, abstract, renaissance.
             `
@@ -33,7 +33,8 @@ export class OpenAI {
 
         const message = [{
             role: "system",
-            content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
+            content: 'You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the user’s ${data_category} data to inspire an image. Your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.',
+            // content: `You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. Given the user's ${data_category} data, you will be creating a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.`,
         },
         {
             role: "user",

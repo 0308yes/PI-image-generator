@@ -11,6 +11,7 @@ import {
 } from 'path';
 import fs from 'fs';
 import { log } from 'console';
+import fetch from 'node-fetch'; // 추가
 
 export default {
 
@@ -137,31 +138,31 @@ export default {
 }
 
 
-async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
-    const __filename = fileURLToPath(
-        import.meta.url);
-    const __dirname = dirname(__filename);
+// async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
+//     const __filename = fileURLToPath(
+//         import.meta.url);
+//     const __dirname = dirname(__filename);
 
-    let generatedPrompt = await openAI.generatePrompt(message)
-    let data = await openAI.generateImage(generatedPrompt)
+//     let generatedPrompt = await openAI.generatePrompt(message)
+//     let data = await openAI.generateImage(generatedPrompt)
 
-    const imageUrls = data.data.map(image => image.url);
-    const timestamp = Date.now();
-    const imageFilename = `image_${timestamp}.png`;
-    const imageFilepath = path.join(__dirname, '..', '..', 'public', 'images', imageFilename); // 경로 수정
+//     const imageUrls = data.data.map(image => image.url);
+//     const timestamp = Date.now();
+//     const imageFilename = `image_${timestamp}.png`;
+//     const imageFilepath = path.join(__dirname, '..', '..', 'public', 'images', imageFilename); // 경로 수정
 
-    await saveImageToFile(imageUrls[0], imageFilepath);
+//     await saveImageToFile(imageUrls[0], imageFilepath);
 
-    const imagePath = `/images/${imageFilename}`
-    const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, imagePath, isWeekly);
+//     const imagePath = `/images/${imageFilename}`
+//     const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, imagePath, isWeekly);
 
-    return {
-        imageUrls,
-        prompt: generatedPrompt,
-        savedFilePath: imageFilepath,
-        logResult: logResult,
-    };
-}
+//     return {
+//         imageUrls,
+//         prompt: generatedPrompt,
+//         savedFilePath: imageFilepath,
+//         logResult: logResult,
+//     };
+// }
 
 async function saveImageToFile(url, filepath) {
     const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
@@ -169,5 +170,32 @@ async function saveImageToFile(url, filepath) {
     const buffer = await response.buffer();
     fs.writeFileSync(filepath, buffer);
     console.log(`Image saved to ${filepath}`);
+}
+
+
+////////// 추가한 부분
+async function downloadImageAsBase64(url) {
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    const base64Image = buffer.toString('base64');
+    return base64Image;
+}
+
+async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
+    let generatedPrompt = await openAI.generatePrompt(message);
+    let data = await openAI.generateImage(generatedPrompt);
+
+    const imageUrls = data.data.map(image => image.url);
+
+    // 이미지를 다운로드하여 base64로 인코딩
+    const base64Image = await downloadImageAsBase64(imageUrls[0]);
+
+    const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, base64Image, isWeekly);
+
+    return {
+        imageUrls: [base64Image], // base64 이미지 반환
+        prompt: generatedPrompt,
+        logResult: logResult,
+    };
 }
 

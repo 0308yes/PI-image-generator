@@ -34,6 +34,12 @@ if (!token) {
     window.location.href = '/login.html';
 }
 
+// 제목 클릭 이벤트 핸들러 추가
+document.getElementById('pageTitle').addEventListener('click', () => {
+    showTab('calendar');
+    fetchLogs();
+});
+
 // 탭 버튼
 document.getElementById('logTab').addEventListener('click', () => showTab('log'));
 document.getElementById('calendarTab').addEventListener('click', () => showTab('calendar'));
@@ -93,11 +99,11 @@ function hideLoadingSpinner() {
 }
 
 //-------------- 이미지 보여주기
-function displayImages(imageUrls, prompt) {
+function displayImages(base64Images, prompt) {
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = imageUrls.map(url => `
+    imageContainer.innerHTML = base64Images.map(base64 => `
         <div class="image-item" style="margin-top: 10px;">
-            <img src="${url}" alt="Generated Image" style="width: 300px; height: auto;">
+            <img src="data:image/png;base64,${base64}" alt="Generated Image" style="width: 300px; height: auto;">
             <div style="margin-top: 5px;">
                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${prompt}</p>
@@ -105,6 +111,7 @@ function displayImages(imageUrls, prompt) {
         </div>
     `).join('');
 }
+
 
 function displayError(error) {
     const imageContainer = document.getElementById('imageContainer');
@@ -205,7 +212,7 @@ function renderLogs(date, logs, showNavigation = false) {
                 ${log && typeof log === 'object' ? `
                     <div class="log-item">
                         <div class="log-content">
-                            <img src="${log.imagePath}" alt="Log Image">
+                            <img src="data:image/png;base64,${log.imagePath}" alt="Log Image">
                             <div class="log-details">
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
@@ -237,6 +244,7 @@ function renderLogs(date, logs, showNavigation = false) {
         </div>
     `;
 }
+
 
 //-------------- 프롬프트 보여주기
 window.togglePrompt = function (button) {
@@ -390,13 +398,14 @@ function generateCalendarCells(month, year, groupedLogs) {
         cells += `
             <div class="calendar-cell" data-date="${dateStr}">
                 <div class="date">${i}</div>
-                ${logs ? `<img src="${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
+                ${logs ? `<img src="data:image/png;base64,${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
             </div>
         `;
     }
 
     return cells;
 }
+
 
 // 캘린더 내 이미지 클릭시 해당 날짜 로그로 이동
 window.handleImageClick = function (event) {

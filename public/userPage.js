@@ -99,19 +99,6 @@ function hideLoadingSpinner() {
 }
 
 //-------------- 이미지 보여주기
-// function displayImages(imageUrls, prompt) {
-//     const imageContainer = document.getElementById('imageContainer');
-//     imageContainer.innerHTML = imageUrls.map(url => `
-//         <div class="image-item" style="margin-top: 10px;">
-//             <img src="${url}" alt="Generated Image" style="width: 300px; height: auto;">
-//             <div style="margin-top: 5px;">
-//                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-//                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${prompt}</p>
-//             </div>
-//         </div>
-//     `).join('');
-// }
-
 function displayImages(base64Images, prompt) {
     const imageContainer = document.getElementById('imageContainer');
     imageContainer.innerHTML = base64Images.map(base64 => `
@@ -203,61 +190,6 @@ function groupLogsByDate(logs) {
 }
 
 //-------------- 로그 출력
-// function renderLogs(date, logs, showNavigation = false) {
-//     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
-//     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
-
-//     const navigationButtons = showNavigation ? `
-//         <div class="navigate-buttons">
-//             <button class="navigate-button back" onclick="backToCalendar()">back</button>
-//             <div class="nav-buttons">
-//                 <button class="navigate-button" onclick="navigateToDate('${previousDate}')">&#10094;</button>
-//                 <button class="navigate-button" onclick="navigateToDate('${nextDate}')">&#10095;</button>
-//             </div>
-//         </div>
-//     ` : '';
-
-//     return `
-//         <div class="log-date-group">
-//             <h3>${date}</h3>
-//             ${navigationButtons}
-//             ${logs.map(log => `
-//                 ${log && typeof log === 'object' ? `
-//                     <div class="log-item">
-//                         <div class="log-content">
-//                             <img src="${log.imagePath}" alt="Log Image">
-//                             <div class="log-details">
-//                                 ${log.isWeekly ? `
-//                                     <p><strong>Weekly Image</strong></p>
-//                                 ` : `
-//                                     <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
-//                                     ${Object.keys(log.data_types).map(key => `
-//                                         <p><strong>${key}:</strong> ${log.data_types[key] !== undefined ? log.data_types[key] : 'N/A'}</p>
-//                                     `).join('')}
-//                                 `}
-//                                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-//                                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.imagePrompt}</p>
-//                                 ${log.memo ? `
-//                                     <p><strong>Memo:</strong> ${log.memo}</p>
-//                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
-//                                 ` : `
-//                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
-//                                 `}
-//                                 <div id="memoInputContainer-${log.timestamp}" style="display: none;">
-//                                     <div class="memo-input-content">
-//                                         <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
-//                                         <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 ` : ''}
-//             `).join('')}
-//         </div>
-//     `;
-// }
-
 function renderLogs(date, logs, showNavigation = false) {
     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
@@ -450,29 +382,6 @@ function renderCalendar(month, year, logs) {
         </div>
     `;
 }
-
-// function generateCalendarCells(month, year, groupedLogs) {
-//     const firstDay = new Date(year, month, 1).getDay();
-//     const daysInMonth = new Date(year, month + 1, 0).getDate();
-//     let cells = '';
-
-//     for (let i = 0; i < firstDay; i++) {
-//         cells += '<div class="calendar-cell"></div>';
-//     }
-
-//     for (let i = 1; i <= daysInMonth; i++) {
-//         const dateStr = new Date(year, month, i).toLocaleDateString();
-//         const logs = groupedLogs[dateStr];
-//         cells += `
-//             <div class="calendar-cell" data-date="${dateStr}">
-//                 <div class="date">${i}</div>
-//                 ${logs ? `<img src="${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
-//             </div>
-//         `;
-//     }
-
-//     return cells;
-// }
 
 function generateCalendarCells(month, year, groupedLogs) {
     const firstDay = new Date(year, month, 1).getDay();

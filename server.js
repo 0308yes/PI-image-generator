@@ -32,15 +32,6 @@ app.use(userRouter);
 app.use(userDataRouter);
 
 
-//이미지 파일 저장 
-async function saveImageToFile(url, filepath) {
-    const fetch = await import('node-fetch').then(mod => mod.default); // 동적 import 사용
-    const response = await fetch(url);
-    const buffer = await response.buffer();
-    fs.writeFileSync(filepath, buffer);
-    console.log(`Image saved to ${filepath}`);
-}
-
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

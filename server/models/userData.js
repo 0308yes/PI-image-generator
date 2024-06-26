@@ -20,7 +20,7 @@ const userDataSchema = new mongoose.Schema({
 
 }, {
     timestamps: true,
-    collection: "logs",
+    collection: "new_logs",
 });
 
 
@@ -65,7 +65,7 @@ userDataSchema.statics.createLogById = async function (
     ID,
     data_types,
     imagePrompt,
-    base64Image, // 인코딩된 이미지 저장
+    imageUrl, // 변경
     isWeekly
 ) {
     try {
@@ -73,7 +73,7 @@ userDataSchema.statics.createLogById = async function (
             ID,
             data_types,
             imagePrompt,
-            imagePath: base64Image, // base64로 인코딩된 이미지 저장
+            imagePath: imageUrl, // 변경
             timestamp: new Date().toISOString(),
             isWeekly: isWeekly
         });

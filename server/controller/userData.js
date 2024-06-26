@@ -12,6 +12,29 @@ import {
 import fs from 'fs';
 import { log } from 'console';
 import fetch from 'node-fetch'; // 추가
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'; // 추가 (s3 수정됨)
+
+// AWS S3 설정
+const s3 = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    }
+});
+
+async function uploadImageToS3(buffer, filename) {
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME, // 버킷 이름
+        Key: filename, // 파일 이름
+        Body: buffer,
+        ContentType: 'image/png'
+    };
+    const command = new PutObjectCommand(params);
+    const data = await s3.send(command);
+    const url = `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+    return url; // 업로드된 이미지의 URL 반환
+}
 
 export default {
 
@@ -173,13 +196,33 @@ async function saveImageToFile(url, filepath) {
 }
 
 
-////////// 추가한 부분
-async function downloadImageAsBase64(url) {
-    const response = await fetch(url);
-    const buffer = await response.buffer();
-    const base64Image = buffer.toString('base64');
-    return base64Image;
-}
+////////// 추가한 부분 - base64
+// async function downloadImageAsBase64(url) {
+//     const response = await fetch(url);
+//     const buffer = await response.buffer();
+//     const base64Image = buffer.toString('base64');
+//     return base64Image;
+// }
+
+// async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
+//     let generatedPrompt = await openAI.generatePrompt(message);
+//     let data = await openAI.generateImage(generatedPrompt);
+
+//     const imageUrls = data.data.map(image => image.url);
+
+//     // 이미지를 다운로드하여 base64로 인코딩
+//     const base64Image = await downloadImageAsBase64(imageUrls[0]);
+
+//     const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, base64Image, isWeekly);
+
+//     return {
+//         imageUrls: [base64Image], // base64 이미지 반환
+//         prompt: generatedPrompt,
+//         logResult: logResult,
+//     };
+// }
+
+///////// 추가한 부분 - s3
 
 async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly) {
     let generatedPrompt = await openAI.generatePrompt(message);
@@ -187,13 +230,20 @@ async function generatePromptAndImage(openAI, message, ID, data_types, isWeekly)
 
     const imageUrls = data.data.map(image => image.url);
 
-    // 이미지를 다운로드하여 base64로 인코딩
-    const base64Image = await downloadImageAsBase64(imageUrls[0]);
+    // 이미지를 다운로드하여 buffer로 변환
+    const response = await fetch(imageUrls[0]);
+    const buffer = await response.buffer();
 
-    const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, base64Image, isWeekly);
+    const timestamp = Date.now();
+    const imageFilename = `image_${timestamp}.png`;
+
+    // S3에 이미지 업로드
+    const imageUrl = await uploadImageToS3(buffer, imageFilename);
+
+    const logResult = await UserDataModel.createLogById(ID, data_types, generatedPrompt, imageUrl, isWeekly);
 
     return {
-        imageUrls: [base64Image], // base64 이미지 반환
+        imageUrls: [imageUrl], // S3 이미지 URL 반환
         prompt: generatedPrompt,
         logResult: logResult,
     };

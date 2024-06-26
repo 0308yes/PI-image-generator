@@ -98,12 +98,12 @@ function hideLoadingSpinner() {
     document.getElementById('loadingSpinner').style.display = 'none';
 }
 
-//-------------- 이미지 보여주기
-function displayImages(base64Images, prompt) {
+//-------------- 이미지 보여주기 (s3 수정됨)
+function displayImages(imageUrls, prompt) {
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.innerHTML = base64Images.map(base64 => `
+    imageContainer.innerHTML = imageUrls.map(url => `
         <div class="image-item" style="margin-top: 10px;">
-            <img src="data:image/png;base64,${base64}" alt="Generated Image" style="width: 300px; height: auto;">
+            <img src="${url}" alt="Generated Image" style="width: 300px; height: auto;">
             <div style="margin-top: 5px;">
                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${prompt}</p>
@@ -111,7 +111,6 @@ function displayImages(base64Images, prompt) {
         </div>
     `).join('');
 }
-
 
 function displayError(error) {
     const imageContainer = document.getElementById('imageContainer');
@@ -189,7 +188,7 @@ function groupLogsByDate(logs) {
     return grouped;
 }
 
-//-------------- 로그 출력
+//-------------- 로그 출력 (s3 수정됨)
 function renderLogs(date, logs, showNavigation = false) {
     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
@@ -212,7 +211,7 @@ function renderLogs(date, logs, showNavigation = false) {
                 ${log && typeof log === 'object' ? `
                     <div class="log-item">
                         <div class="log-content">
-                            <img src="data:image/png;base64,${log.imagePath}" alt="Log Image">
+                            <img src="${log.imagePath}" alt="Log Image">
                             <div class="log-details">
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
@@ -383,6 +382,7 @@ function renderCalendar(month, year, logs) {
     `;
 }
 
+// (s3 수정됨)
 function generateCalendarCells(month, year, groupedLogs) {
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -398,7 +398,7 @@ function generateCalendarCells(month, year, groupedLogs) {
         cells += `
             <div class="calendar-cell" data-date="${dateStr}">
                 <div class="date">${i}</div>
-                ${logs ? `<img src="data:image/png;base64,${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
+                ${logs ? `<img src="${logs[0].imagePath}" alt="Event Image" class="event-image" onclick="handleImageClick(event)">` : ''}
             </div>
         `;
     }

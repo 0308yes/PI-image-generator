@@ -11,6 +11,7 @@ router
     .post('/generate-image', auth, userData.onGenerateImage)
     .post('/generate-weekly-image', auth, userData.onGenerateWeeklyImage)
     .post('/save-memo', auth, userData.onSaveMemo)
+    .post('/save-timestamp', auth, userData.onSaveTimestamp)
 
 
 export default router;

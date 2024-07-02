@@ -20,7 +20,7 @@ for (const item of result) {
     //input.type = 'number';
     input.id = item
     input.name = item
-    input.required = true;
+    // input.required = true; // 필수 입력 속성 제거
     input.className = 'form-input';
 
     formGroup.appendChild(label);
@@ -50,12 +50,12 @@ fetchLogs();
 document.getElementById('dataForm').addEventListener('submit', async (event) => {
     event.preventDefault()
 
-    let values = {}
+    let values = {};
     const formGroups = form.getElementsByClassName('form-group');
     for (const formGroup of formGroups) {
         const inputs = formGroup.getElementsByTagName('input');
         for (const input of inputs) {
-            values[input.id] = input.value
+            values[input.id] = input.value || null;  // 빈 값일 경우 null로 설정
         }
     }
 
@@ -189,6 +189,64 @@ function groupLogsByDate(logs) {
 }
 
 //-------------- 로그 출력 (s3 수정됨)
+// <div class="nav-buttons">
+// <button class="navigate-button" onclick="navigateToDate('${previousDate}')">&#10094;</button>
+// <button class="navigate-button" onclick="navigateToDate('${nextDate}')">&#10095;</button>
+// </div>
+
+// function renderLogs(date, logs, showNavigation = false) {
+//     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
+//     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
+
+//     const navigationButtons = showNavigation ? `
+//         <div class="navigate-buttons">
+//             <button class="navigate-button back" onclick="backToCalendar()">back</button>
+//         </div>
+//     ` : '';
+
+//     return `
+//         <div class="log-date-group">
+//             <h3>${date}</h3>
+//             ${navigationButtons}
+//             ${logs.map(log => `
+//                 ${log && typeof log === 'object' ? `
+//                     <div class="log-item">
+//                         <div class="log-content">
+//                             <img src="${log.imagePath}" alt="Log Image">
+//                             <div class="log-details">
+//                                 ${log.isWeekly ? `
+//                                     <p><strong>Weekly Image</strong></p>
+//                                 ` : `
+//                                     <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
+//                                     ${Object.keys(log.data_types).map(key => `
+//                                         <p><strong>${key}:</strong> ${log.data_types[key] !== undefined ? log.data_types[key] : 'N/A'}</p>
+//                                     `).join('')}
+//                                 `}
+//                                 <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
+//                                 <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.imagePrompt}</p>
+//                                 ${log.memo ? `
+//                                     <p><strong>Memo:</strong> ${log.memo}</p>
+//                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
+//                                 ` : `
+//                                     <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
+//                                 `}
+//                                 <div id="memoInputContainer-${log.timestamp}" style="display: none;">
+//                                     <div class="memo-input-content">
+//                                         <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
+//                                         <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 ` : ''}
+//             `).join('')}
+//         </div>
+//     `;
+// }
+
+// 로그 출력 함수에서 타임스탬프를 시간과 분까지만 표시하도록 수정
+// 로그 출력 함수에서 타임스탬프 옆에 버튼 배치 및 입력 컨테이너를 타임스탬프 아래에 배치
 function renderLogs(date, logs, showNavigation = false) {
     const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
     const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
@@ -196,10 +254,6 @@ function renderLogs(date, logs, showNavigation = false) {
     const navigationButtons = showNavigation ? `
         <div class="navigate-buttons">
             <button class="navigate-button back" onclick="backToCalendar()">back</button>
-            <div class="nav-buttons">
-                <button class="navigate-button" onclick="navigateToDate('${previousDate}')">&#10094;</button>
-                <button class="navigate-button" onclick="navigateToDate('${nextDate}')">&#10095;</button>
-            </div>
         </div>
     ` : '';
 
@@ -216,7 +270,14 @@ function renderLogs(date, logs, showNavigation = false) {
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
                                 ` : `
-                                    <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleString()}</p>
+                                    <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleDateString()} ${new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    <button class="toggle-prompt-button" style="margin-left: 10px;" onclick="showTimestampInput('${log.timestamp}')">Edit Timestamp</button></p>
+                                    <div id="timestampInputContainer-${log.timestamp}" style="display: none;">
+                                        <div class="timestamp-input-content">
+                                            <input type="datetime-local" id="timestampInput-${log.timestamp}" value="${new Date(log.timestamp).toISOString().slice(0,16)}">
+                                            <button onclick="saveTimestamp('${log.timestamp}')">Save Timestamp</button>
+                                        </div>
+                                    </div>
                                     ${Object.keys(log.data_types).map(key => `
                                         <p><strong>${key}:</strong> ${log.data_types[key] !== undefined ? log.data_types[key] : 'N/A'}</p>
                                     `).join('')}
@@ -243,6 +304,8 @@ function renderLogs(date, logs, showNavigation = false) {
         </div>
     `;
 }
+
+
 
 
 //-------------- 프롬프트 보여주기
@@ -330,18 +393,32 @@ function toggleButton(button) {
 }
 
 // 날짜별 로그
+// function displayLogsByDate(date, logs) {
+//     const logDetailContainer = document.getElementById('logDetailContainer');
+//     const dateLogs = logs[0]
+//         .filter(log => new Date(log.timestamp).toLocaleDateString() === date)
+//         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+//     logDetailContainer.innerHTML = dateLogs.length > 0 ? renderLogs(date, dateLogs, true) : `<p>No logs for ${date}</p>`;
+//     logDetailContainer.style.display = 'block'; // 로그 보여주기 위해 display 속성 변경
+//     document.getElementById('calendar').style.display = 'none'; // 캘린더 숨김
+//     document.getElementById('logContainer').style.display = 'none'; // 로그 목록 숨김
+//     document.getElementById('buttonContainer').style.display = 'none'; // 버튼 컨테이너 숨김
+// }
+
+// 날짜별 로그 -- logContainer reference하도록 변경함.
 function displayLogsByDate(date, logs) {
-    const logDetailContainer = document.getElementById('logDetailContainer');
+    const logContainer = document.getElementById('logContainer');
     const dateLogs = logs[0]
         .filter(log => new Date(log.timestamp).toLocaleDateString() === date)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-    logDetailContainer.innerHTML = dateLogs.length > 0 ? renderLogs(date, dateLogs, true) : `<p>No logs for ${date}</p>`;
-    logDetailContainer.style.display = 'block'; // 로그 보여주기 위해 display 속성 변경
+    logContainer.innerHTML = dateLogs.length > 0 ? renderLogs(date, dateLogs, true) : `<p>No logs for ${date}</p>`;
+    logContainer.style.display = 'block'; // 로그 보여주기 위해 display 속성 변경
     document.getElementById('calendar').style.display = 'none'; // 캘린더 숨김
-    document.getElementById('logContainer').style.display = 'none'; // 로그 목록 숨김
     document.getElementById('buttonContainer').style.display = 'none'; // 버튼 컨테이너 숨김
 }
+
 
 // 캘린더 탭으로 돌아올 때 로그 상세보기 컨테이너 초기화
 document.getElementById('calendarTab').addEventListener('click', () => {
@@ -351,16 +428,28 @@ document.getElementById('calendarTab').addEventListener('click', () => {
 });
 
 // 뒤로가기 버튼
+// window.backToCalendar = function () {
+//     const logDetailContainer = document.getElementById('logDetailContainer');
+//     const calendarContainer = document.getElementById('calendar');
+//     const logContainer = document.getElementById('logContainer');
+//     const buttonContainer = document.getElementById('buttonContainer');
+
+//     logDetailContainer.style.display = 'none'; // 로그 상세보기 컨테이너 숨김
+//     logDetailContainer.innerHTML = ''; // 로그 상세보기 컨테이너 초기화
+//     calendarContainer.style.display = 'block'; // 캘린더 표시
+//     logContainer.style.display = 'none'; // 로그 목록 숨김
+//     buttonContainer.style.display = 'none'; // 버튼 컨테이너 숨김
+// }
+
+// logcontainer만 reference 하도록 변경
 window.backToCalendar = function () {
-    const logDetailContainer = document.getElementById('logDetailContainer');
     const calendarContainer = document.getElementById('calendar');
     const logContainer = document.getElementById('logContainer');
     const buttonContainer = document.getElementById('buttonContainer');
 
-    logDetailContainer.style.display = 'none'; // 로그 상세보기 컨테이너 숨김
-    logDetailContainer.innerHTML = ''; // 로그 상세보기 컨테이너 초기화
-    calendarContainer.style.display = 'block'; // 캘린더 표시
     logContainer.style.display = 'none'; // 로그 목록 숨김
+    logContainer.innerHTML = ''; // 로그 목록 초기화
+    calendarContainer.style.display = 'block'; // 캘린더 표시
     buttonContainer.style.display = 'none'; // 버튼 컨테이너 숨김
 }
 
@@ -522,43 +611,93 @@ window.onclick = function (event) {
     }
 }
 
-// Weekly Image (예전코드) ------- 여기부터 수정하기
-// document.getElementById('generateWeeklyImage').addEventListener('click', function() {
-//     // 현재 날짜 가져오기
-//     const today = new Date();
-//     // n일 전 날짜 계산 (나중에 일주일 단위로 변경하기)
-//     const startDate = new Date();
-//     startDate.setDate(today.getDate() - 2);
+// Weekly Image
+document.getElementById('generateWeeklyImage').addEventListener('click', function() {
+    // 현재 날짜 가져오기
+    const today = new Date();
+    // n일 전 날짜 계산 (나중에 일주일 단위로 변경하기)
+    const startDate = new Date();
+    startDate.setDate(today.getDate() - 4);
 
-//     // yyyy-mm-dd 형식으로 변환
-//     const formatDate = (date) => date.toISOString().split('T')[0];
+    // yyyy-mm-dd 형식으로 변환
+    const formatDate = (date) => date.toISOString().split('T')[0];
 
-//     // 시작 날짜와 종료 날짜 설정
-//     const formattedStartDate = formatDate(startDate);
-//     const formattedEndDate = formatDate(today);
+    // 시작 날짜와 종료 날짜 설정
+    const formattedStartDate = formatDate(startDate);
+    const formattedEndDate = formatDate(today);
 
-//     fetch('/generate-weekly-image', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${token}`
-//         },
-//         body: JSON.stringify({
-//             startDate: formattedStartDate,
-//             endDate: formattedEndDate
-//         }),
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.imageUrls) {
-//             displayImages(data.imageUrls, data.prompt);
-//             fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
-//         } else {
-//             displayError(data.error);
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         displayError(error);
-//     });
-// });
+    showLoadingSpinner();
+
+    fetch('/generate-weekly-image', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            startDate: formattedStartDate,
+            endDate: formattedEndDate
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoadingSpinner();
+        if (data.imageUrls) {
+            displayImages(data.imageUrls, data.prompt);
+            fetchLogs(); // 이미지를 생성한 후 로그를 다시 불러옴
+        } else {
+            displayError(data.error);
+        }
+    })
+    .catch(error => {
+        hideLoadingSpinner();
+        console.error('Error:', error);
+        displayError(error);
+    });
+});
+
+//timestamp 수정
+// 타임스탬프 입력란 표시 함수
+window.showTimestampInput = function (timestamp) {
+    const timestampInputContainer = document.getElementById(`timestampInputContainer-${timestamp}`);
+    const timestampInput = document.getElementById(`timestampInput-${timestamp}`);
+    
+    // timestamp를 로컬 시간대로 변환하여 설정
+    const localTimestamp = new Date(timestamp).toLocaleString('sv-SE', { timeZoneName: 'short' }).replace(' ', 'T').slice(0, 16);
+    timestampInput.value = localTimestamp;
+
+    timestampInputContainer.style.display = 'block';
+}
+
+// 타임스탬프 저장 함수
+window.saveTimestamp = function (oldTimestamp) {
+    const newTimestamp = document.getElementById(`timestampInput-${oldTimestamp}`).value;
+
+    // newTimestamp를 ISO 형식으로 변환 (UTC 시간대로)
+    const newTimestampISO = new Date(newTimestamp).toISOString();
+
+    fetch('/save-timestamp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            oldTimestamp,
+            newTimestamp: newTimestampISO
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Timestamp saved successfully!');
+            fetchLogs(); // 타임스탬프 저장 후 로그를 다시 불러옴
+        } else {
+            alert('Error saving timestamp.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error saving timestamp.');
+    });
+}

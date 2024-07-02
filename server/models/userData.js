@@ -104,5 +104,22 @@ userDataSchema.statics.saveMemo = async function (
 
 }
 
+userDataSchema.statics.updateTimestamp = async function (oldTimestamp, newTimestamp) {
+    try {
+        const result = await this.updateOne({
+            'timestamp': oldTimestamp
+        }, {
+            $set: {
+                'timestamp': newTimestamp
+            }
+        });
+        console.log(result)
+        return result
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 
 export default mongoose.model("UserData", userDataSchema);

@@ -443,7 +443,7 @@ h2 {
     font-size: 20px;
     cursor: pointer;
     padding: 5px 12px;
-    margin: 0 10px;
+    margin: 10 0px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -457,6 +457,8 @@ h2 {
     padding: 5px 10px;
     position: absolute; /* 절대 위치 설정 */
     left: 0; /* 왼쪽에 위치 */
+    background-color: #000;
+    color: white;
 }
 
 .nav-buttons {
@@ -547,4 +549,43 @@ h2 {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* 타임스탬프 입력 필드 스타일 */
+.timestamp-input-content {
+    background-color: #fefefe;
+    margin-top: 10px;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+}
+
+.timestamp-input-content input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.timestamp-input-content button {
+    padding: 5px 10px;
+    margin-top: 5px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.timestamp-input-content button:hover {
+    background-color: #3c3c3c;
+}
+
+/* 로그 상세 스타일 */
+.log-details p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }

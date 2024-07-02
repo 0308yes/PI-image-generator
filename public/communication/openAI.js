@@ -5,12 +5,18 @@ export class OpenAI {
             Image Generation Rules:
             1. Extract keywords based on the interpretation of the data before generating the image. The image should be generated based on these keywords.
             2. Do not include any numbers, letters, or text in the drawing.
-            3. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
+            3. Generate an image that is not associated with the data provided, ensuring creativity and originality. Do not generate an image that describes the provided data.
             4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Do not draw objects that directly depict “physical activity” and “personal data”. Do not draw a road, trail, or path.
             5. Upon regeneration, ensure the new image is based on different subjects or keywords.
             6. The subject, mood, texture, and style of the image should vary with each generation to maintain diversity and creativity.
-            7. Draw in one of the following styles: painting, photo, sketch, cartoon, impressionist, abstract, renaissance.
-            `
+            7. Draw in one of the following styles based on your interpretation of the provided data:
+            - Medium: painting, photo, sketch, cartoon, icon, vector, graffiti, 3D render
+            - West Figurative Premodern: Baroque, High Renaissance, Impressionism, Medieval, Pointillism, Neoclassicism
+            - West Figurative Modern: Pop Art, Surrealism, documentary photography, Art deco, Hippie movement, photorealism
+            - Non-West Abstract Modern: Ukiyo-e, Chinese ink wash painting, Kerala mural, Mayan art, African masks, ancient Egyptian art, thangka
+            - Non-West Abstract Modern.: Mola art, Geometric Islamic art, Mexican Otomi, Andean textile, Aboriginal art
+            - West Abstract Modern: action painting, Op art, Bauhaus, Cubism, Dadaism, Futurism
+`
     }
 
     async init() {
@@ -21,14 +27,30 @@ export class OpenAI {
         let data_type_keys = Object.keys(data_types);
         let userMessageContent = `You will be provided with the personal data related to ${data_category} of a day, including "`;
 
+        // data_type_keys.forEach((key, index) => {
+        //     userMessageContent += `${key}:${data_types[key]}`;
+        //     if (index < data_type_keys.length - 1) {
+        //         userMessageContent += ", ";
+        //     } else {
+        //         userMessageContent += ".";
+        //     }
+        // });
+
+        // 인풋 입력 안하는 경우도 포함
         data_type_keys.forEach((key, index) => {
-            userMessageContent += `${key}:${data_types[key]}`;
+            if (data_types[key]) {
+                userMessageContent += `${key}:${data_types[key]}`;
+            } else {
+                userMessageContent += `${key}: `;
+            }
+    
             if (index < data_type_keys.length - 1) {
                 userMessageContent += ", ";
             } else {
                 userMessageContent += ".";
             }
         });
+
         console.log(userMessageContent)
 
         const message = [{

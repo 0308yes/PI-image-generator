@@ -157,6 +157,31 @@ export default {
                 error: error
             })
         }
+    },
+
+    onSaveTimestamp: async (req, res) => {
+        const { oldTimestamp, newTimestamp } = req.body;
+
+        try {
+            const result = await UserDataModel.updateTimestamp(oldTimestamp, newTimestamp);
+            if (!result) {
+                return res.status(400).json({
+                    success: false,
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    result
+                });
+            }
+
+        } catch (err) {
+            console.error("Error saving timestamp:", err);
+            res.status(500).json({
+                success: false,
+                error: err.message
+            });
+        }
     }
 }
 

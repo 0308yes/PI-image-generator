@@ -5,11 +5,11 @@ export class OpenAI {
             Image Generation Rules:
             1. Extract keywords based on the interpretation of the data before generating the image. The image should be generated based on these keywords.
             2. Do not include any numbers, letters, or text in the drawing.
-            3. Generate an image that is not associated with the data provided, ensuring creativity and originality. Do not generate an image that describes the provided data.
+            3. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
             4. When creating keywords, reflect the interpretation of the quantitative data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not include numbers, letters, or text in the drawing. Do not draw objects that directly depict “physical activity” and “personal data”. Do not draw a road, trail, or path.
             5. Upon regeneration, ensure the new image is based on different subjects or keywords.
             6. The subject, mood, texture, and style of the image should vary with each generation to maintain diversity and creativity.
-            7. Draw in one of the following styles based on your interpretation of the provided data:
+            7. Draw in one of the following styles: 
             - Medium: painting, photo, sketch, cartoon, icon, vector, graffiti, 3D render
             - West Figurative Premodern: Baroque, High Renaissance, Impressionism, Medieval, Pointillism, Neoclassicism
             - West Figurative Modern: Pop Art, Surrealism, documentary photography, Art deco, Hippie movement, photorealism

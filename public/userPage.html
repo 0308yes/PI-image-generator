@@ -6,33 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Self-Tracking Image Generator</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
- 
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
     <link rel="stylesheet" href="style.css?v=1"> <!-- 캐시 무효화 -->
 </head>
 
 <body>
-    <h1 id="pageTitle">Self-Tracking Image Generator</h1>
+    <h1 id="pageTitle">Welcome to Image Tracker! 👋 💌</h1>
 
     <div class="tab-container">
-        <button id="calendarTab" class="tab-button active">Calendar</button>
-        <button id="logTab" class="tab-button">Image Log</button>
+        <button id="calendarTab" class="tab-button active">캘린더</button>
+        <button id="logTab" class="tab-button">이미지 기록</button>
     </div>
 
     <div id="calendar" class="tab-content" style="display:none;"></div>
 
     <div class="button-container" id="buttonContainer" style="display: none;">
-        <button id="btn2" class="action-button">Today</button>
-        <button id="btn1" class="action-button">History</button>
+        <button id="btn2" class="action-button">오늘</button>
+        <button id="btn1" class="action-button">히스토리</button>
     </div>
 
     <div id="logContainer" class="tab-content"></div>
     <div id="logDetailContainer" class="tab-content" style="display:none;"></div>
 
     <!-- 플로팅 버튼 -->
-    <div class="floating-button" onclick="showForm()">+ Record Data</div>
+    <div class="floating-button" onclick="showForm()">+ 기록하기</div>
 
     <!-- 폼 포함 모달 -->
     <div id="formModal" class="modal">
@@ -42,12 +49,15 @@
                 <button type="submit" id="submit-button" class="submit-button">이미지 보기</button>
             </form>
 
-            <button id="generateWeeklyImage" class="weekly-button">이번주의 이미지</button>
-
             <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
-
             <!-- <h2>Generated Image</h2> -->
             <div id="imageContainer"></div>
+
+            <div class="weekly-container">
+                <p id="weeklyImageMessage">✉️ 일요일인가요? 이번주의 이미지를 확인해보세요.</p>
+                <button id="generateWeeklyImage" class="weekly-button" style="display: none;">이번주의 이미지 보기</button>
+            </div>
+
         </div>
     </div>
 

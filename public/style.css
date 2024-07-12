@@ -1,23 +1,26 @@
 * {
-    font-family: "Roboto", sans-serif !important; /* 폰트 전체 적용 */
+    font-family: "Pretendard", sans-serif !important; /* 폰트 전체 적용 */
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: "Pretendard", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F2F2F5;
+    background-color: #ffffff;
     text-align: center;
 }
 
 h1 {
-    background-color: #eaeaea;
+    background-color: #ffffff; /* 흰 배경 */
     color: black;
     padding: 20px 0;
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
+    text-align: left; /* 왼쪽 정렬 */
+    padding-left: 20px; /* 왼쪽 여백 추가 */
 }
+
 /* 폼 스타일 */
 form {
     max-width: 600px;
@@ -25,7 +28,9 @@ form {
     padding: 20px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Pretendard";
+    
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 /* 폼 그룹 스타일 */
@@ -38,7 +43,7 @@ form {
 .form-label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 /* 인풋 스타일 */
@@ -56,25 +61,37 @@ form {
     background-color: #000000;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .submit-button:hover {
     background-color: #3c3c3c;
 }
 
+.weekly-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color:#8b8b8b;
+}
+
 .weekly-button {
     padding: 10px 20px;
     margin: 0 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #EBEBF2;
     color: #888899;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #loadingSpinner {
@@ -103,9 +120,10 @@ form {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    border-bottom: 1px solid #ddd; /* 탭 아래 선 추가 */
 }
 
-.tab-button {
+/* .tab-button {
     padding: 10px 20px;
     margin: 0 10px;
     background-color: #F2F2F5;
@@ -115,18 +133,35 @@ form {
     cursor: pointer;
     font-size: 12px;
     transition: background-color 0.3s, color 0.3s;
+} */
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: transparent;
+    color: #9A9AAF;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s, border-bottom 0.3s;
+    position: relative;
 }
 
-.tab-button.active {
+/* .tab-button.active {
     background-color: white;
     color: black;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+} */
+
+.tab-button.active {
+    color: black;
+    border-bottom: 2px solid black; /* 활성화된 탭의 아래에 검은 선 추가 */
 }
 
-.tab-button:hover {
-    background-color: #E5E5E5; /* 호버시 어둡게 */
-    color: #000000; /* 호버시 글자색 */
-}
+/* .tab-button:hover {
+    background-color: #E5E5E5;
+    color: #000000; 
+} */
 
 /* -------------- Today | Histoy 버튼 */
 .button-container {
@@ -179,10 +214,17 @@ h2 {
 
 /* --------------이미지 로그 */
 
+
+
 #logContainer {
     max-width: 600px;
     margin: 20px auto;
     text-align: left;
+}
+
+h3 {
+    margin-left: 14px;
+    font-size: 16px;
 }
 
 .log-date-group {
@@ -192,13 +234,25 @@ h2 {
     color: #333;
 }
 
-.log-item {
+/* .log-item {
     display: flex;
     align-items: center;
     padding: 10px;
     margin: 12px 0;
     background-color: white;
     border-radius: 10px;
+    transition: box-shadow 0.3s;
+} */
+
+
+.log-item {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    margin: 12px 12px;
+    background-color: white; /* 카드 배경 흰색 */
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     transition: box-shadow 0.3s;
 }
 
@@ -211,6 +265,7 @@ h2 {
     width: 200px;
     height: 200px;
     margin-right: 20px;
+    border-radius: 3px;
 }
 
 .log-details {
@@ -224,31 +279,42 @@ h2 {
     font-size: 14px;
 }
 
+/* 원하는 공백 크기만큼 설정 */
+/* .log-details strong {
+    margin-right: 4px; 
+} */
+
+
 @media (max-width: 600px) {
-.log-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    .log-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 가운데 정렬 */
+        gap: 12px;
+    }
+
+    .log-content img {
+        width: 100%; /* 이미지 크기를 줄임 */
+        height: auto;
+        object-fit: cover;
+        margin: 0 auto; /* 가운데 정렬 */
+    }
+
+    .log-details {
+        width: 100%;
+        text-align: center; /* 텍스트 가운데 정렬 */
+    }
+
+    .log-details p {
+        margin: 5px 0;
+        color: #3D3D51;
+        font-size: 14px;
+    }
+    
+
+    
 }
 
-.log-content img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    /* border-radius: 8px; */
-}
-
-.log-details {
-    width: 100%;
-}
-
-.log-details p {
-    margin: 5px 0;
-    color: #3D3D51;
-    font-size: 14px;
-}
-}
 
 .toggle-prompt-button {
     background-color: #F2F2F5;
@@ -287,7 +353,7 @@ h2 {
     margin-top: 10px;
     /* padding: 20px;
     border: 1px solid #888; */
-    width: 80%;
+    width: 100%;
     max-width: 400px;
     /* border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
@@ -298,7 +364,7 @@ h2 {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid #e1e1e1;
     border-radius: 4px;
     resize: vertical;
     min-height: 100px;
@@ -326,22 +392,45 @@ h2 {
     padding: 10px;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 /* 캘린더 헤더 스타일 */
 .calendar-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 10px 0;
 }
 
+/* justify-content: space-between; */
+
 .calendar-header h2 {
     margin: 0;
     font-size: 20px;
+    font-weight: 600;
 }
+
+.calendar-header h2 {
+    margin: 0 10px; /* 양쪽 여백을 줄여서 화살표와 가까워지도록 조정 */
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+/*.calendar-header h2 {
+    margin: 0;
+    font-size: 20px;
+} */
+
+/* .calendar-header {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    padding: 10px 0;
+} */
+
+
 
 .calendar-header button {
     background: none;
@@ -352,7 +441,7 @@ h2 {
 
 /* 요일 헤더 스타일 */
 .calendar-grid div:nth-child(-n+7) {
-    font-weight: bold;
+    font-weight: 500;
     color: #999;
     margin-bottom: 10px;
 }
@@ -370,7 +459,7 @@ h2 {
     position: relative;
     height: 100px; /* 높이를 늘려 이미지가 더 잘 보이게 */
     padding: 10px;
-    background: #f9f9f9;
+    background: #faf9f9; /*캘린더 네모 박스 #f9f9f9*/
     border-radius: 8px;
     text-align: center;
     font-size: 14px;
@@ -433,6 +522,7 @@ h2 {
     justify-content: center; /* 모든 버튼들을 중앙에 정렬 */
     align-items: center;
     margin-bottom: 20px;
+    margin-left: 14px;
     position: relative; /* 상대적 위치 설정 */
 }
 
@@ -452,15 +542,20 @@ h2 {
     color: #fff; 호버 시 글자 색상 변경
 } */
 
+/* 기존 navigate-button.back 스타일 수정 */
 .navigate-button.back {
     font-size: 12px;
     padding: 5px 10px;
-    position: absolute; /* 절대 위치 설정 */
-    left: 0; /* 왼쪽에 위치 */
-    background-color: #000;
-    color: white;
+    background-color: #F2F1F5;
+    color: #9A9AAF;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
 }
 
+.navigate-button.back:hover {
+    background-color: #3c3c3c;
+}
 .nav-buttons {
     display: flex;
     justify-content: center; /* 중앙 정렬 */
@@ -584,8 +679,90 @@ h2 {
 }
 
 /* 로그 상세 스타일 */
-.log-details p {
+/* .log-details p {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+} */
+
+.log-details p {
+    display: block; /* 기존 display: flex 삭제 */
+    margin: 5px 0;
+    color: #3D3D51;
+    font-size: 14px;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+
+.calendar-navigate-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px; /* 버튼 크기를 줄이기 위해 패딩 추가 */
+}
+
+.arrow {
+    display: inline-block;
+    width: 4px; /* 화살표 크기 줄이기 */
+    height: 4px; /* 화살표 크기 줄이기 */
+    border: solid #333;
+    border-width: 0 3px 3px 0; /* 화살표 두께 줄이기 */
+    padding: 2px; /* 화살표 크기를 줄이기 위해 패딩 추가 */
+}
+
+
+.arrow-left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.arrow-right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.calendar-navigate-button:hover .arrow {
+    border-color: #000; /* 호버 시 색상 변경 */
+}
+
+.generated-prompt {
+    background-color: #fafafa; /* 배경색 */
+    padding: 10px; /* 내부 여백 */
+    border: 1px solid #f0f0f0;
+    border-radius: 4px; /* 모서리 둥글게 */
+    margin-top: 5px; /* 위쪽 여백 */
+    font-size: 14px; /* 글자 크기 */
+    color: #333; /* 글자 색상 */
+    font-family: "Pretendard";
+    line-height: 1.5; /* 줄 간격 조절 */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.divider {
+    border: none;
+    border-top: 1.6px solid #f1f1f1;
+    margin: 4px 0;
+}
+
+.no-logs-message {
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+    margin-top: 26px;
+}
+
+.log-date-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 버튼과 날짜 사이의 간격 */
+    margin-left: 14px; /* 좌측 정렬을 위한 마진 */
+}
+
+.log-date-navigation h3 {
+    margin: 0;
+    font-size: 16px;
 }

@@ -105,8 +105,8 @@ function displayImages(imageUrls, prompt) {
         <div class="image-item" style="margin-top: 10px;">
             <img src="${url}" alt="Generated Image" style="width: 300px; height: auto;">
             <div style="margin-top: 5px;">
-                <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-                <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${prompt}</p>
+                <button class="toggle-prompt-button" onclick="togglePrompt(this)">이미지 설명 열기</button>
+                <p class="generated-prompt" style="display: none;"><strong>AI의 이미지 설명:</strong> ${prompt}</p>
             </div>
         </div>
     `).join('');
@@ -247,20 +247,18 @@ function groupLogsByDate(logs) {
 
 // 로그 출력 함수에서 타임스탬프를 시간과 분까지만 표시하도록 수정
 // 로그 출력 함수에서 타임스탬프 옆에 버튼 배치 및 입력 컨테이너를 타임스탬프 아래에 배치
+// null 값을 체크하고, null인 경우 해당 필드를 표시하지 않도록 수정
 function renderLogs(date, logs, showNavigation = false) {
-    const previousDate = new Date(new Date(date).setDate(new Date(date).getDate() - 1)).toLocaleDateString();
-    const nextDate = new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString();
-
     const navigationButtons = showNavigation ? `
-        <div class="navigate-buttons">
-            <button class="navigate-button back" onclick="backToCalendar()">back</button>
-        </div>
+        <button class="navigate-button back" onclick="backToCalendar()">이전</button>
     ` : '';
 
     return `
         <div class="log-date-group">
-            <h3>${date}</h3>
-            ${navigationButtons}
+            <div class="log-date-navigation">
+                ${navigationButtons}
+                <h3>${date}</h3>
+            </div>
             ${logs.map(log => `
                 ${log && typeof log === 'object' ? `
                     <div class="log-item">
@@ -270,30 +268,31 @@ function renderLogs(date, logs, showNavigation = false) {
                                 ${log.isWeekly ? `
                                     <p><strong>Weekly Image</strong></p>
                                 ` : `
-                                    <p><strong>Time:</strong> ${new Date(log.timestamp).toLocaleDateString()} ${new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    <button class="toggle-prompt-button" style="margin-left: 10px;" onclick="showTimestampInput('${log.timestamp}')">Edit Timestamp</button></p>
+                                    <p><strong>기록 시간: </strong> ${new Date(log.timestamp).toLocaleDateString()} ${new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    <button class="toggle-prompt-button" style="margin-left: 10px;" onclick="showTimestampInput('${log.timestamp}')">수정</button></p>
+                                    <hr class="divider">
                                     <div id="timestampInputContainer-${log.timestamp}" style="display: none;">
                                         <div class="timestamp-input-content">
                                             <input type="datetime-local" id="timestampInput-${log.timestamp}" value="${new Date(log.timestamp).toISOString().slice(0,16)}">
-                                            <button onclick="saveTimestamp('${log.timestamp}')">Save Timestamp</button>
+                                            <button onclick="saveTimestamp('${log.timestamp}')">저장</button>
                                         </div>
                                     </div>
                                     ${Object.keys(log.data_types).map(key => `
-                                        <p><strong>${key}:</strong> ${log.data_types[key] !== undefined ? log.data_types[key] : 'N/A'}</p>
+                                        ${log.data_types[key] !== null ? `<p><strong>${key}:</strong> ${log.data_types[key]}</p>` : ''}
                                     `).join('')}
                                 `}
-                                <button class="toggle-prompt-button" onclick="togglePrompt(this)">See Prompt</button>
-                                <p class="generated-prompt" style="display: none;"><strong>Generated Prompt:</strong> ${log.imagePrompt}</p>
+                                <button class="toggle-prompt-button" onclick="togglePrompt(this)">이미지 설명 열기</button>
+                                <p class="generated-prompt" style="display: none;"><strong>AI의 이미지 설명:</strong> ${log.imagePrompt}</p>
                                 ${log.memo ? `
                                     <p><strong>Memo:</strong> ${log.memo}</p>
-                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">Edit Memo</button>
+                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}', '${log.memo}')">메모 수정하기</button>
                                 ` : `
-                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">Add Memo</button>
+                                    <button class="toggle-prompt-button" onclick="showMemoInput('${log.timestamp}')">메모 남기기</button>
                                 `}
                                 <div id="memoInputContainer-${log.timestamp}" style="display: none;">
                                     <div class="memo-input-content">
-                                        <textarea id="memoInput-${log.timestamp}" placeholder="Enter your memo"></textarea>
-                                        <button onclick="saveMemo('${log.timestamp}')">Save Memo</button>
+                                        <textarea id="memoInput-${log.timestamp}" placeholder="메모를 입력하세요."></textarea>
+                                        <button onclick="saveMemo('${log.timestamp}')">메모 저장</button>
                                     </div>
                                 </div>
                             </div>
@@ -308,15 +307,17 @@ function renderLogs(date, logs, showNavigation = false) {
 
 
 
+
+
 //-------------- 프롬프트 보여주기
 window.togglePrompt = function (button) {
     const promptElement = button.nextElementSibling;
     if (promptElement.style.display === 'none' || promptElement.style.display === '') {
         promptElement.style.display = 'block';
-        button.innerText = 'Hide Prompt';
+        button.innerText = '이미지 설명 닫기';
     } else {
         promptElement.style.display = 'none';
-        button.innerText = 'See Prompt';
+        button.innerText = '이미지 설명 열기';
     }
 }
 
@@ -370,7 +371,7 @@ function displayTodayLogs(logs) {
         .filter(log => log && typeof log === 'object' && new Date(log.timestamp).toLocaleDateString() === today)
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // 최신순으로 정렬
     console.log(logs[0])
-    logContainer.innerHTML = todayLogs.length > 0 ? renderLogs(today, todayLogs) : `<p>No logs for today.</p>`;
+    logContainer.innerHTML = todayLogs.length > 0 ? renderLogs(today, todayLogs) : `<p class="no-logs-message">오늘의 기록이 없습니다.</p>`;
 }
 
 // 전체 히스토리
@@ -460,12 +461,16 @@ function renderCalendar(month, year, logs) {
     const groupedLogs = groupLogsByDate(logs);
     calendar.innerHTML = `
         <div class="calendar-header">
-            <button onclick="navigateMonth(${month - 1}, ${year})">&#10094;</button>
+            <button class="calendar-navigate-button" onclick="navigateMonth(${month - 1}, ${year})">
+             <span class="arrow arrow-left"></span>
+            </button>
             <h2>${year}.${('0' + (month + 1)).slice(-2)}</h2>
-            <button onclick="navigateMonth(${month + 1}, ${year})">&#10095;</button>
+            <button class="calendar-navigate-button" onclick="navigateMonth(${month + 1}, ${year})">
+                <span class="arrow arrow-right"></span>
+            </button>
         </div>
         <div class="calendar-grid">
-            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
             ${generateCalendarCells(month, year, groupedLogs)}
         </div>
     `;
@@ -612,6 +617,17 @@ window.onclick = function (event) {
 }
 
 // Weekly Image
+
+// "일요일인가요? 이번주의 이미지를 생성해보세요" 메시지 클릭 이벤트 리스너 추가
+document.getElementById('weeklyImageMessage').addEventListener('click', function() {
+    const button = document.getElementById('generateWeeklyImage');
+    if (button.style.display === 'none' || button.style.display === '') {
+        button.style.display = 'block';
+    } else {
+        button.style.display = 'none';
+    }
+});
+
 document.getElementById('generateWeeklyImage').addEventListener('click', function() {
     // 현재 날짜 가져오기
     const today = new Date();

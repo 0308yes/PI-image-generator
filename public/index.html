@@ -9,15 +9,17 @@
 
 <body>
 
-    <h2>Login</h2>
+    <h2>로그인</h2>
     <form id="dataForm">
         <div class="form-group">
-            <input type="text" id="ID" placeholder="ID" required>
+            <label for="ID" class="form-label"></label>
+            <input type="text" id="ID" name="ID" class="form-input" placeholder="ID" required>
         </div>
         <div class="form-group">
-            <input type="text" id="password" placeholder="Password" required>
+            <label for="password" class="form-label"></label>
+            <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
         </div>
-        <button type="submit" class="submit-button">Submit</button>
+        <button type="submit" class="submit-button">로그인</button>
     </form>
 
     <script src="login.js?v=1"></script> <!-- Cache busting -->

@@ -4,7 +4,7 @@ export class OpenAI {
         this.promptGenerationRule = `
             [Image Generation Rules]
             1. Extract keywords based on the interpretation of the data before generating the image. Keywords can include scenes, objects, landscapes, colors, patterns, moods, etc. The image should be generated based on these keywords.
-            2. When creating keywords, reflect the interpretation of the data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not draw objects that directly depict the data type and “personal data” itself.
+            2. When creating keywords, reflect the interpretation of the data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not draw objects that directly depict the data type (e.g., workout, screentime, etc) and “personal data” itself.
             3. Do not include any numbers, letters, or text in the image.
             4. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
             5. Avoid repetitive image prompts by using diverse keywords and styles. The subject, mood, texture, and style of the image should vary to maintain diversity and creativity.

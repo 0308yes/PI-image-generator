@@ -633,7 +633,7 @@ document.getElementById('generateWeeklyImage').addEventListener('click', functio
     const today = new Date();
     // n일 전 날짜 계산 (나중에 일주일 단위로 변경하기)
     const startDate = new Date();
-    startDate.setDate(today.getDate() - 4);
+    startDate.setDate(today.getDate() - 7);
 
     // yyyy-mm-dd 형식으로 변환
     const formatDate = (date) => date.toISOString().split('T')[0];

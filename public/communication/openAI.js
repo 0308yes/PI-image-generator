@@ -6,9 +6,9 @@ export class OpenAI {
             1. Extract keywords based on the interpretation of the data before generating the image. Keywords can include scenes, objects, landscapes, colors, patterns, moods, etc. The image should be generated based on these keywords.
             2. When creating keywords, reflect the interpretation of the data rather than the type of data itself. For example, interpret "24-minute exercise" creatively instead of simply noting "exercise". The image should embody these keywords in a creative manner. Do not draw objects that directly depict the data type (e.g., workout, screentime, etc) and “personal data” itself.
             3. Do not include any numbers, letters, or text in the image.
-            4. Generate an image that is not easily associated with the data provided, ensuring creativity and originality.
+            4. Generate an image that is not easily associated with the data provided, ensuring originality and unexpectedness.
             5. Avoid repetitive image prompts by using diverse keywords and styles. The subject, mood, texture, and style of the image should vary to maintain diversity and creativity.
-            6. Draw in one of the following styles: 
+            6. Draw in one of the following styles. Use a different style for each image to ensure a wide variety:
             - Medium: painting, photo, sketch, cartoon, icon, vector, graffiti, 3D render
             - West Figurative Premodern: Baroque, High Renaissance, Impressionism, Medieval, Pointillism, Neoclassicism
             - West Figurative Modern: Pop Art, Surrealism, documentary photography, Art deco, Hippie movement, photorealism
@@ -57,15 +57,15 @@ export class OpenAI {
         const message = [{
             role: "system",
             //content: 'You are a helpful assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the user’s ${data_category} data to inspire an image. Your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. The output should only be the image prompt.',
-            content: `You are an assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the personal data related to “${data_category} of a day”. Given the user's ${data_category} data, your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. You MUST follow the provided [Image Generation Rules] when generating image prompts. Provide your output in an image prompt format.`,
-        },
-        {
-            role: "user",
-            content: userMessageContent
+            content: `You are an assistant who creates image prompts. Your goal is to support self-reflection by creating an image that allows users to reflect on their data in a subjective way. You will be provided with the personal data related to “${data_category} of a day”. Given the user's ${data_category} data, your task is to create a original and unexpected image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. You MUST follow the provided [Image Generation Rules] when generating image prompts. Provide your output in an image prompt format.`,
         },
         {
             role: "system",
             content: this.promptGenerationRule
+        },
+        {
+            role: "user",
+            content: userMessageContent
         }
         ];
         return message
@@ -91,15 +91,15 @@ export class OpenAI {
 
         const message = [{
             role: "system",
-            content: `You are an assistant who creates image prompts. Your goal is to support self-reflection by creating an image that reflects the interpretation of personal data. You will be provided with the personal data related to “Weekly ${data_category} data”. Given the user's weekly ${data_category} data, your task is to create a creative and original image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. You MUST follow the provided [Image Generation Rules] when generating image prompts. Provide your output in an image prompt format.`
-        },
-        {
-            role: "user",
-            content: `Weekly ${data_category} data:\n${weeklyDataText}`
+            content: `You are an assistant who creates image prompts. Your goal is to support self-reflection by creating an image that allows users to reflect on their data in a subjective way. You will be provided with the personal data related to “Weekly ${data_category} data”. Given the user's weekly ${data_category} data, your task is to create a original and unexpected image prompt for DALL-E to produce an image that is inspired by your interpretation of this data. You MUST follow the provided [Image Generation Rules] when generating image prompts. Provide your output in an image prompt format.`
         },
         {
             role: "system",
             content: this.promptGenerationRule
+        },
+        {
+            role: "user",
+            content: `Weekly ${data_category} data:\n${weeklyDataText}`
         }
         ];
         return message
